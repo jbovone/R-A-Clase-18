@@ -1,42 +1,45 @@
-import User from './User'
+import User, { user } from './User';
 
 /**
  *  Person. Client consumer.
  */
 
-class Client extends User {
-  name: string;
-  surmane: string;
+interface client {
+  id: string;
+  firstName: string;
+  lastName: string;
   documentType: string;
   documentNumber: string;
   address: string;
   telephone: number;
-  birthday: string;
+  bornDate: string;
+  isAdmin: boolean;
+  username: string;
+  password: string;
+  email: string;
+}
+
+class Client extends User {
+  firstName: string;
+  lastName: string;
+  documentType: string;
+  documentNumber: string;
+  address: string;
+  telephone: number;
+  bornDate: string;
   isAdmin: boolean;
 
-  constructor(  
-    name: string,
-    surmane: string,
-    documentType: string,
-    documentNumber: string,
-    address: string,
-    telephone: number,
-    birthday: string,
-    isAdmin: boolean,
-    username: string,
-    password: string,
-    email: string,
-    ){
-    super(username, password, email)   
-    this.name = name;
-    this.surmane = surmane;
-    this.documentType = documentType;
-    this.documentNumber = documentNumber;
-    this.address = address;
-    this.telephone = telephone;
-    this.birthday = birthday;
-    this.isAdmin = isAdmin;
+  constructor(props: client) {
+    super(props);
+    this.firstName = props.firstName;
+    this.lastName = props.lastName;
+    this.documentType = props.documentType;
+    this.documentNumber = props.documentNumber;
+    this.address = props.address;
+    this.telephone = props.telephone;
+    this.bornDate = props.bornDate;
+    this.isAdmin = props.isAdmin;
   }
 }
 
-export default Client
+export default Client;

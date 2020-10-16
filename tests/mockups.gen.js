@@ -1,12 +1,7 @@
 const data = require('faker');
 const colors = ['orange', 'red', 'blue', 'white', 'green', 'black'];
-function setRandomMailProvider() {
-  const providers = ['gmail.com', 'outlook.com', 'hotmail.com', 'yahoo.es'];
-  const draft = Math.floor(Math.random() * Math.floor(providers.length));
-  return providers[draft];
-}
 
-function generatePerson(restricted = false) {
+function generateClient(restricted = false) {
   const person = {
     id: data.random.uuid(),
     firstName: data.name.firstName(),
@@ -18,10 +13,11 @@ function generatePerson(restricted = false) {
     isAdmin: false,
     username: data.internet.userName(),
     password: data.internet.password(random(13), true),
-    email: data.name.firstName() + '@' + setRandomMailProvider(),
+    bornDate: data.date.past(70),
+    email: data.internet.email(),
   };
-  const { username, password, email } = person;
-  return restricted ? { username, password, email } : person;
+  const { id, username, password, email } = person;
+  return restricted ? { id, username, password, email } : person;
 }
 
 function generateCar() {
@@ -54,7 +50,8 @@ function setStatus() {
   return isDraft(0.2) ? 'in-repairs' : isDraft() ? 'avaliable' : 'in-service';
 }
 
-console.log(generatePerson());
-console.log(generateCar());
+//console.log(generateClient());
+//console.log(generateCar());
+//yarn gen
 
-module.exports = { generatePerson, generateCar };
+module.exports = { generateClient, generateCar };
