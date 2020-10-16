@@ -1,6 +1,6 @@
-import Automovile from './Automovile';
-import Client from './Client';
+import Automovile from '../Model/Automovile';
+import Client from '../Model/Client';
 
 export default class Transaction {
-  constructor<Automovile, Client>() {}
+  constructor(Automovile: Automovile, Client: Client) {}
 }

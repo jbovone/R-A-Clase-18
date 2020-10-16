@@ -1,11 +1,5 @@
-/**
- * Person consumer with minimal registration functionality.
- * This user status may change over conditions to be meet:
- *  -A extended registration.
- *  -Mail verification.
- */
 
-export default class User {
+class User {
   username: string;
   password: string;
   email: string;
@@ -15,3 +9,5 @@ export default class User {
     this.email = email;
   }
 }
+
+export default User

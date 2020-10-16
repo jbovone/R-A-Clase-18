@@ -21,3 +21,5 @@ class ApiServiceProvider {
     );
   }
 }
+
+export default ApiServiceProvider;

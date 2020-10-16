@@ -14,7 +14,8 @@ const production = {
 export default (() => production)();
 const sequelize = new Sequelize(production);
 
-class User extends Model {}
+/** sample:
+ * class User extends Model {}
 User.init(
   {
     username: DataTypes.STRING,
@@ -31,3 +32,4 @@ User.init(
   });
   console.log(jane.toJSON());
 })();
+ */
