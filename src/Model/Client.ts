@@ -1,9 +1,5 @@
 import User, { user } from './User';
 
-/**
- *  Person. Client consumer.
- */
-
 interface client {
   id: string;
   firstName: string;
@@ -18,6 +14,10 @@ interface client {
   password: string;
   email: string;
 }
+
+/**
+ *  Client.
+ */
 
 class Client extends User {
   firstName: string;

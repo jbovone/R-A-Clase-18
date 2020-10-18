@@ -1,16 +1,18 @@
-import express, { RequestHandler, Application } from 'express';
+import express from 'express';
+import cors from 'cors';
 
-class ServerProvider {
-  constructor(private service: typeof express) {
-    this.service = this.service().bind(this);
-  }
-  create(port: number) {
-    this.service.application.listen(process.env.PORT || port, () =>
-      console.log(`$mounted on ${port}`)
-    );
+import clients from '../clientsController';
+import automobile from '../automobileController';
+import transactions from '../transactionsController';
 
-    return this.service.Router();
-  }
-}
+const app = express();
 
-export default ServerProvider;
+app.use(cors());
+
+app.use('/clients', clients);
+app.use('/automobile', automobile);
+app.use('/transactions', transactions);
+
+app.listen(4000, () => console.log('listen 4000'));
+
+export default app;

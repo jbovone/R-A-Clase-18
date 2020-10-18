@@ -2,5 +2,9 @@
 node_modules
 ##dist
 dist
-##typescript
-/typescript
+##build code
+build
+##notes
+notes
+##env
+.env
