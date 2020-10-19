@@ -1,8 +1,8 @@
 import Sequelize, { Model, DataTypes } from 'sequelize';
 
-class AutomovileRepository extends Model {
+class AutomovileModel extends Model {
   static setup(sequelizeInstance: Sequelize.Sequelize) {
-    AutomovileRepository.init(
+    AutomovileModel.init(
       {
         id: {
           type: DataTypes.INTEGER,
@@ -58,8 +58,8 @@ class AutomovileRepository extends Model {
         timestamps: false,
       }
     );
-    return AutomovileRepository;
+    return AutomovileModel;
   }
 }
 
-export default AutomovileRepository;
+export default AutomovileModel;

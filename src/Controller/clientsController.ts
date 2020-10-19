@@ -1,34 +1,24 @@
 import { Router } from 'express';
+import { clientsService } from '../Model/types';
 
-const clients = Router();
+export default class ClientController {
+  provider;
+  service;
+  base;
+  constructor(router: Router, service: clientsService) {
+    this.base = '/clients';
+    this.provider = router;
+    this.service = service;
+  }
+  manifesto() {
+    this.provider.post('/new', this.service.create.bind(this));
+    this.provider.post(`/delete/:id`, this.service.remove.bind(this));
+    this.provider.get(`/all`, this.service.getAll.bind(this));
+    this.provider.get(`/:id`, this.service.getById.bind(this));
+    this.provider.get(`/:filters`, this.service.getByfilters.bind(this));
+    this.provider.put(`/email-verification/:id/:code/`, this.service.emailVerify.bind(this));
+    this.provider.put(`/complete-registration/:id/`, this.service.completeRegistration.bind(this));
 
-clients.post(`/new`, (req, res) => {
-  res.send('new client');
-});
-
-clients.post(`/delete/:id`, (req, res) => {
-  const { id } = req.params;
-  console.log(req.params);
-  res.send('delete ' + id);
-});
-
-clients.get(`/:id`, (req, res) => {
-  const { id } = req.params;
-  res.send('getone');
-});
-
-clients.get(`/all`, (req, res) => {
-  console.log('CLIENTE');
-  res.send('getall');
-});
-
-clients.get(`/:filters`, (req, res) => {
-  const { filters } = req.params;
-  res.send('getsome');
-});
-
-clients.put(`/:id`, (req, res) => {
-  res.send('updateOne');
-});
-
-export default clients;
+    return this.provider;
+  }
+}

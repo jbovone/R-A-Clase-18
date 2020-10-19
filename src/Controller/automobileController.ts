@@ -1,33 +1,22 @@
 import { Router } from 'express';
+import { automobileService } from '../Model/types';
 
-const automobile = Router();
-
-automobile.post(`/new`, (req, res) => {
-  res.send('newcar');
-});
-
-automobile.post(`/delete/:id`, (req, res) => {
-  const { id } = req.params;
-  res.send('deleted');
-});
-
-automobile.get(`/:id`, (req, res) => {
-  const { id } = req.params;
-  res.send('getone');
-});
-
-automobile.get(`/all`, (req, res) => {
-  res.send('getall');
-});
-
-automobile.get(`/:filters`, (req, res) => {
-  const { filters } = req.params;
-  res.send('getsome');
-});
-
-automobile.put(`/:id`, (req, res) => {
-  const { id } = req.params;
-  res.send('updateone');
-});
-
-export default automobile;
+export default class AutomobileController {
+  provider;
+  service;
+  base;
+  constructor(router: Router, service: automobileService) {
+    this.base = '/automobile';
+    this.provider = router;
+    this.service = service;
+  }
+  manifesto() {
+    this.provider.post('/new', this.service.create.bind(this));
+    this.provider.post(`/delete/:id`, this.service.remove.bind(this));
+    this.provider.get(`/all`, this.service.getAll.bind(this));
+    this.provider.get(`/:id`, this.service.getById.bind(this));
+    this.provider.get(`/:filters`, this.service.getByfilters.bind(this));
+    this.provider.put(`/:id/`, this.service.updateCar.bind(this));
+    return this.provider;
+  }
+}

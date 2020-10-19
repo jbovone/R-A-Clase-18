@@ -1,18 +1,17 @@
 import express from 'express';
 import cors from 'cors';
+import { baseController as module } from './../../Model/types';
 
-import clients from '../clientsController';
-import automobile from '../automobileController';
-import transactions from '../transactionsController';
+class ServerProvider {
+  service: typeof express.application;
+  constructor(clients: module, automobile: module, transactions: module) {
+    this.service = express();
+    this.service.use(cors());
+    this.service.use(clients.base, clients.manifesto());
+    this.service.use(automobile.base, automobile.manifesto());
+    this.service.use(transactions.base, transactions.manifesto());
+    this.service.listen(process.env.PORT || 4000, () => console.log('serving 4000'));
+  }
+}
 
-const app = express();
-
-app.use(cors());
-
-app.use('/clients', clients);
-app.use('/automobile', automobile);
-app.use('/transactions', transactions);
-
-app.listen(4000, () => console.log('listen 4000'));
-
-export default app;
+export default ServerProvider;

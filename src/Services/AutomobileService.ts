@@ -1,8 +1,4 @@
-import { transactionsService } from '../Model/types.d';
-
-class TransactionsService implements TransactionsService {
-  constructor() {}
-
+export default class AutomovileService {
   getAll(_: any, dispatch: any) {}
 
   getById(event: any, dispatch: any) {
@@ -27,7 +23,8 @@ class TransactionsService implements TransactionsService {
     dispatch.send('OK!');
     return 'erased' + id;
   }
-  extendContract(event: any, dispatch: any) {}
-}
 
-export default TransactionsService;
+  updateCar(event: any, dispatch: any) {
+    const { id } = event.params;
+  }
+}

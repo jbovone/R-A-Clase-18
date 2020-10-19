@@ -1,10 +1,5 @@
-##node
 node_modules
-##dist
 dist
-##build code
-build
-##notes
-notes
-##env
 .env
+notes.md
+src/Repository/bin/*
