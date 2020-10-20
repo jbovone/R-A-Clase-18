@@ -1,6 +1,6 @@
-import { clientsService } from '../Model/types.d';
+import { transactionsService } from '../Model/types';
 
-class ClientService implements clientsService {
+class TransactionsService implements transactionsService {
   constructor() {}
 
   getAll(_: any, dispatch: any) {}
@@ -16,6 +16,7 @@ class ClientService implements clientsService {
   create(event: any, dispatch: any) {
     const user = event.body;
   }
+
   update(event: any, dispatch: any) {
     const client = event.body;
     const { id } = event.params;
@@ -27,12 +28,7 @@ class ClientService implements clientsService {
     dispatch.send('OK!');
     return 'erased' + id;
   }
-
-  emailVerify(event: any, dispatch: any) {
-    const { id } = event.params;
-  }
-
-  completeRegistration(event: any, dispatch: any) {}
+  extendContract(event: any, dispatch: any) {}
 }
 
-export default ClientService;
+export default TransactionsService;

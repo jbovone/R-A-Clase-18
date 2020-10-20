@@ -1,5 +1,5 @@
 
-interface auto {
+export interface automobile {
   id: string;
   brand: string;
   model: string;
@@ -14,7 +14,7 @@ interface auto {
 /**
  * Automovile base entity.
  */
-class Automovile implements auto {
+class Automovile implements automobile {
   id;
   brand;
   model;
@@ -24,7 +24,7 @@ class Automovile implements auto {
   passengers;
   gears;
   status;
-  constructor(props: auto) {
+  constructor(props: automobile) {
     this.id = props.id,
     this.brand = props.brand,
     this.model = props.model,

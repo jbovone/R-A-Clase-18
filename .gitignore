@@ -3,3 +3,4 @@ dist
 .env
 notes.md
 src/Repository/bin/*
+View/*

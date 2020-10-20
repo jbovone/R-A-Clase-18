@@ -3,6 +3,7 @@ import { Options } from 'sequelize';
 const development: Options = {
   dialect: 'sqlite',
   storage: '../bin/rental_app.db',
+  logging: console.log,
 };
 
 const production: Options = {
@@ -10,7 +11,7 @@ const production: Options = {
   database: process.env.DB_HOST,
   username: process.env.DB_USER,
   password: process.env.DB_PASS,
-  storage: process.env.DB_PATH,
+  logging: console.log,
 };
 
 const setMode = () => {

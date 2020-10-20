@@ -1,8 +1,10 @@
 import Sequelize, { Model, DataTypes } from 'sequelize';
+import AutomovileModel from './AutomobilesModel';
+import ClientsModel from './ClientsModel';
 
-class AutomovileModel extends Model {
+class TransactionsModel extends Model {
   static setup(sequelizeInstance: Sequelize.Sequelize) {
-    AutomovileModel.init(
+    TransactionsModel.init(
       {
         id: {
           type: DataTypes.INTEGER,
@@ -11,37 +13,30 @@ class AutomovileModel extends Model {
           autoIncrement: true,
           unique: true,
         },
-        brand: {
+        fkUser: {
           type: DataTypes.STRING,
           allowNull: false,
         },
-        model: {
+        fkAutoMovile: {
           type: DataTypes.STRING,
           allowNull: false,
         },
-        year: {
+        fromTime: {
+          type: DataTypes.DATE,
+          allowNull: false,
+        },
+        toTime: {
+          type: DataTypes.DATE,
+          allowNull: false,
+        },
+        paid: {
           type: DataTypes.INTEGER,
-          allowNull: false,
         },
-        miles: {
+        totalPrice: {
           type: DataTypes.INTEGER,
-          allowNull: false,
         },
-        color: {
-          type: DataTypes.STRING,
-          allowNull: false,
-        },
-        passengers: {
-          type: DataTypes.STRING,
-          allowNull: false,
-        },
-        gears: {
-          type: DataTypes.STRING,
-          allowNull: false,
-        },
-        status: {
-          type: DataTypes.STRING,
-          allowNull: false,
+        fkAlive: {
+          type: DataTypes.BOOLEAN, //!!car.statuts === "in-service"
         },
         lastUpdated: {
           type: DataTypes.DATE,
@@ -54,12 +49,16 @@ class AutomovileModel extends Model {
       },
       {
         sequelize: sequelizeInstance,
-        modelName: 'Automoviles',
+        modelName: 'Transactions',
         timestamps: false,
       }
     );
-    return AutomovileModel;
+    return TransactionsModel;
+  }
+  static setupAssociations(ClientsModel:any, AutomovileModel:any) {
+    TransactionsModel.belongsTo(ClientsModel, { foreignKey: 'id' });
+    TransactionsModel.belongsTo(AutomovileModel, { foreignKey: 'id' });
   }
 }
 
-export default AutomovileModel;
+export default TransactionsModel

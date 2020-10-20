@@ -1,48 +1,71 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import DIContainer, { object, get, factory } from 'rsdi';
+import DIContainer, { object, get } from 'rsdi';
+import ServerProvider from './Controller/Provider/ServerProvider';
 import { Router } from 'express';
 
 import { Sequelize } from 'sequelize';
 import repositoryConfig from './Repository/configuration/main_db.conf';
+import ViewController from './Controller/ViewController';
 
-import AutomobileService from './Services/AutomobileService';
 import AutomobileController from './Controller/AutomobileController';
-import AutomovileModel from './Repository/models/AutomovileModel';
+import AutomobileService from './Service/AutomobileService';
+import AutomobileRepository from './Repository/AutomobileRepository';
+import AutomobileModel from './Repository/model/AutomobilesModel';
 import Automovile from './Model/Automovile';
 
-import ServerProvider from './Controller/Provider/serverProvider';
-
 import ClientsController from './Controller/ClientsController';
-import ClientService from './Services/ClientService';
-import ClientModel from './Repository/models/ClientModel';
+import ClientService from './Service/ClientService';
+import ClientsRepository from './Repository/ClientsRepository';
+import ClientsModel from './Repository/model/ClientsModel';
 import Client from './Model/Client';
 
 import TransactionsController from './Controller/TransactionsController';
-import TransactionsService from './Services/TransactionService';
-import TransactionsRepository from './Repository/models/TransactionsModel';
+import TransactionsService from './Service/TransactionService';
+import TransactionsRepository from './Repository/TransactionsRepository';
+import TransactionsModel from './Repository/model/TransactionsModel';
+import Transaction from './Model/Transaction';
 
 const program = new DIContainer();
+const sequelize = new Sequelize(repositoryConfig);
 
-program.addDefinitions({
+const definitions = {
   Server: object(ServerProvider).construct(
     get('ClientsController'),
     get('AutomobileController'),
-    get('TransactionsController')
+    get('TransactionsController'),
+    get('ViewController')
   ),
-  AutomobileController: object(AutomobileController).construct(Router(), get('AutomovileService')),
-  AutomovileService: object(AutomobileService).construct(),
-  ClientsController: object(ClientsController).construct(Router(), get('ClientService')),
-  ClientService: object(ClientService).construct(),
+
+  ViewController: object(ViewController).construct(Router()),
+
+  /** from here only servs json*/
+  AutomobileController: object(AutomobileController).construct(Router(), get('AutomobileService')),
+  AutomobileService: object(AutomobileService).construct(Automovile, get('AutomobileRepository')),
+  AutomobileRepository: object(AutomobileRepository).construct(AutomobileModel),
+
+  ClientsController: object(ClientsController).construct(Router(), get('ClientsService')),
+  ClientsService: object(ClientService).construct(Client, get('ClientsRepository')),
+  ClientsRepository: object(ClientsRepository).construct(ClientsModel),
+
   TransactionsController: object(TransactionsController).construct(Router(), get('TransactionService')),
-  TransactionService: object(TransactionsService).construct(),
-  Database: object(Sequelize).construct(repositoryConfig),
-  //SessionDatabase: object(Sequelize).construct(),
-});
-program.get('Server');
-program.get('Database');
+  TransactionService: object(TransactionsService).construct(Transaction, get('TransactionsRepository')),
+  TransactionsRepository: object(TransactionsRepository).construct(TransactionsModel),
 
-//const db = new Sequelize('mysql');
+  //SessionDatabase: object(Sequelize).construct(), TODO
+};
 
-console.log(process.env.DB_PATH);
+(async () => {
+  try {
+    AutomobileModel.setup(sequelize);
+    ClientsModel.setup(sequelize);
+    TransactionsModel.setup(sequelize);
+    await Promise.all([AutomobileModel.sync(), ClientsModel.sync(), TransactionsModel.sync()]);
+
+    program.addDefinitions(definitions);
+    program.get('Server');
+  } catch (error) {
+    console.log(error);
+  }
+})();

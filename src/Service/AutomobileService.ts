@@ -1,4 +1,9 @@
-export default class AutomovileService {
+import { automobileService } from '../Model/types';
+import { automobile } from '../Model/Automovile';
+import { Model } from 'sequelize/types';
+
+export default class AutomovileService implements automobileService {
+  constructor(AutomobileModel: automobile, Repository: typeof Model) {}
   getAll(_: any, dispatch: any) {}
 
   getById(event: any, dispatch: any) {
@@ -12,6 +17,7 @@ export default class AutomovileService {
   create(event: any, dispatch: any) {
     const user = event.body;
   }
+
   update(event: any, dispatch: any) {
     const client = event.body;
     const { id } = event.params;

@@ -1,23 +1,33 @@
 export interface transaction {
   id: string;
-  salePrice: number;
   userId: string;
   carId: string;
   expires: string;
+  fromTime: string;
+  toTime: string;
+  paid: number;
+  totalPrice: number;
+  alive: boolean;
 }
 class Transaction {
   id: string;
-  salePrice: number;
   userId: string;
   carId: string;
-  expires: string;
+  fromTime: string;
+  toTime: string;
+  paid: number;
+  totalPrice: number;
+  alive: boolean;
   constructor(props: transaction) {
     this.id = props.id;
-    this.salePrice = props.salePrice;
     this.userId = props.userId;
     this.carId = props.carId;
-    this.expires = props.expires;
-  }
+    this.fromTime  = props.fromTime;
+    this.toTime = props.toTime;
+    this.paid = props.paid;
+    this.totalPrice = props.totalPrice;
+    this.alive = props.alive;
+  } 
 }
 
 export default Transaction;

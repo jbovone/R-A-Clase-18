@@ -1,6 +1,6 @@
 import User, { user } from './User';
 
-interface client {
+export interface client {
   id: string;
   firstName: string;
   lastName: string;

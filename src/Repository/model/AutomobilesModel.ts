@@ -1,8 +1,8 @@
 import Sequelize, { Model, DataTypes } from 'sequelize';
 
-class ClientRepository extends Model {
+class AutomovileModel extends Model {
   static setup(sequelizeInstance: Sequelize.Sequelize) {
-    ClientRepository.init(
+    AutomovileModel.init(
       {
         id: {
           type: DataTypes.INTEGER,
@@ -11,43 +11,37 @@ class ClientRepository extends Model {
           autoIncrement: true,
           unique: true,
         },
-        username: {
-          type: DataTypes.STRING,
-          unique: true,
-          allowNull: false,
-        },
-        password: {
+        brand: {
           type: DataTypes.STRING,
           allowNull: false,
         },
-        email: {
+        model: {
           type: DataTypes.STRING,
-          unique: true,
           allowNull: false,
         },
-        firstName: {
-          type: DataTypes.STRING,
-        },
-        lastName: {
-          type: DataTypes.STRING,
-        },
-        documentType: {
-          type: DataTypes.STRING,
-        },
-        documentNumber: {
-          type: DataTypes.BIGINT,
-        },
-        address: {
-          type: DataTypes.STRING,
-        },
-        telephone: {
+        year: {
           type: DataTypes.INTEGER,
+          allowNull: false,
         },
-        bornDate: {
+        miles: {
           type: DataTypes.INTEGER,
+          allowNull: false,
         },
-        isAdmin: {
-          type: DataTypes.BOOLEAN,
+        color: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        passengers: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        gears: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        status: {
+          type: DataTypes.STRING,
+          allowNull: false,
         },
         lastUpdated: {
           type: DataTypes.DATE,
@@ -60,12 +54,12 @@ class ClientRepository extends Model {
       },
       {
         sequelize: sequelizeInstance,
-        modelName: 'Client',
+        modelName: 'Automoviles',
         timestamps: false,
       }
     );
-    return ClientRepository;
+    return AutomovileModel;
   }
 }
 
-export default ClientRepository;
+export default AutomovileModel

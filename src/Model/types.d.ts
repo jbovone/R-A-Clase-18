@@ -27,3 +27,5 @@ interface automobileService extends ServiceBase{
 interface transactionsService extends ServiceBase{
     extendContract: RequestHandler;
 }
+
+  
