@@ -1,4 +1,4 @@
-import { transaction } from '../Model/Transaction';
+import { transaction } from '../Entities/Transaction';
 import TransactionsModel from './model/TransactionsModel';
 
 export default class ClientsRepository {

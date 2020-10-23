@@ -1,4 +1,4 @@
-import { clientsService } from '../Model/types';
+import { clientsService } from '../../types';
 
 class ClientService implements clientsService {
   constructor() {}

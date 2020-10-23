@@ -1,4 +1,4 @@
-import { client } from '../Model/Client';
+import { client } from '../Entities/Client';
 import ClientsModel from './model/ClientsModel';
 
 export default class ClientsRepository {

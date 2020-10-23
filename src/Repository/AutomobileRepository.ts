@@ -1,4 +1,4 @@
-import { automobile } from '../Model/Automovile';
+import { automobile } from '../Entities/Automovile';
 import AutomobilesModel from './model/AutomobilesModel';
 
 export default class AutomovileRepository {

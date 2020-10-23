@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { automobileService } from '../Model/types';
+import { automobileService } from '../../types';
 
 export default class AutomobileController {
   provider;

@@ -1,5 +1,5 @@
-import { automobileService } from '../Model/types';
-import { automobile } from '../Model/Automovile';
+import { automobileService } from '../../types';
+import { automobile } from '../Entities/Automovile';
 import { Model } from 'sequelize/types';
 
 export default class AutomovileService implements automobileService {

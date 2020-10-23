@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { transactionsService } from '../Model/types';
+import { transactionsService } from '../../types';
 
 export default class ClientController {
   provider;

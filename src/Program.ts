@@ -40,7 +40,6 @@ const definitions = {
 
   ViewController: object(ViewController).construct(Router()),
 
-  /** from here only servs json*/
   AutomobileController: object(AutomobileController).construct(Router(), get('AutomobileService')),
   AutomobileService: object(AutomobileService).construct(Automovile, get('AutomobileRepository')),
   AutomobileRepository: object(AutomobileRepository).construct(AutomobileModel),

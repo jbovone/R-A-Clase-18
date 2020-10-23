@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { baseController as module } from '../../Model/types';
+import { baseController as module } from '../../../types';
 
 class ServerProvider {
   service: typeof express.application;
