@@ -1,19 +1,7 @@
-import User, { user } from './User';
+import { client } from '../../types';
+import User from './User'
 
-export interface client {
-  id: string;
-  firstName: string;
-  lastName: string;
-  documentType: string;
-  documentNumber: string;
-  address: string;
-  telephone: number;
-  bornDate: string;
-  isAdmin: boolean;
-  username: string;
-  password: string;
-  email: string;
-}
+
 
 /**
  *  Client.

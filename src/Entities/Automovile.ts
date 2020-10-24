@@ -1,15 +1,4 @@
-
-export interface automobile {
-  id: string;
-  brand: string;
-  model: string;
-  year: number;
-  miles: number;
-  color: string;
-  passengers: number;
-  gears: string;
-  status: string;
-}
+import { automobile } from "../../types";
 
 /**
  * Automovile base entity.

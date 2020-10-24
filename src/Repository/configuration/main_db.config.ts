@@ -1,4 +1,6 @@
+import DIContainer, { factory } from 'rsdi';
 import { Options } from 'sequelize';
+import { Sequelize } from 'sequelize';
 
 const development: Options = {
   dialect: 'sqlite',
@@ -13,12 +15,16 @@ const production: Options = {
   password: process.env.DB_PASS,
 };
 
-const setMode = () => {
-  if (process.env.NODE_ENV === 'development') {
-    return development;
-  }
-  return production;
-};
-const configuration = setMode();
+function addMainDatabase() {
+  let configuration;
 
-export default configuration;
+  if (process.env.NODE_ENV === 'development') {
+    configuration = development;
+  } else {
+    configuration = production;
+  }
+
+  return new Sequelize(configuration);
+}
+
+export default addMainDatabase;

@@ -11,13 +11,13 @@ export default class ClientController {
     this.service = service;
   }
   manifesto() {
-    this.provider.post('/new', this.service.create.bind(this));
-    this.provider.post(`/delete/:id`, this.service.remove.bind(this));
-    this.provider.get(`/all`, this.service.getAll.bind(this));
-    this.provider.get(`/:id`, this.service.getById.bind(this));
-    this.provider.get(`/:filters`, this.service.getByfilters.bind(this));
-    this.provider.put(`/email-verification/:id/:code/`, this.service.emailVerify.bind(this));
-    this.provider.put(`/complete-registration/:id/`, this.service.completeRegistration.bind(this));
+    this.provider.post('/new', this.service.create.bind(this.service));
+    this.provider.post(`/delete/:id`, this.service.remove.bind(this.service));
+    this.provider.get(`/all`, this.service.getAll.bind(this.service));
+    this.provider.get(`/:id`, this.service.getById.bind(this.service));
+    this.provider.get(`/:filters`, this.service.getByfilters.bind(this.service));
+    this.provider.put(`/email-verification/:id/:code/`, this.service.emailVerify.bind(this.service));
+    this.provider.put(`/complete-registration/:id/`, this.service.completeRegistration.bind(this.service));
 
     return this.provider;
   }

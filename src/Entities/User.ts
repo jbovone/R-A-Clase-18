@@ -1,9 +1,5 @@
-export interface user {
-  id: string;
-  username: string;
-  password: string;
-  email: string;
-}
+import { user } from "../../types";
+
 class User {
   id: string;
   username: string;

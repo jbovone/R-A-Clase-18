@@ -1,14 +1,5 @@
-export interface transaction {
-  id: string;
-  userId: string;
-  carId: string;
-  expires: string;
-  fromTime: string;
-  toTime: string;
-  paid: number;
-  totalPrice: number;
-  alive: boolean;
-}
+import { transaction } from '../../types' 
+
 class Transaction {
   id: string;
   userId: string;

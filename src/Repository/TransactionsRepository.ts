@@ -1,10 +1,10 @@
-import { transaction } from '../Entities/Transaction';
+import { transaction } from '../../types';
 import TransactionsModel from './model/TransactionsModel';
 
 export default class ClientsRepository {
   interface;
-  constructor(transactions: typeof TransactionsModel) {
-    this.interface = transactions;
+  constructor(model: typeof TransactionsModel) {
+    this.interface = model;
   }
 
   async getAll() {

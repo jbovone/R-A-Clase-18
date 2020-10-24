@@ -1,10 +1,10 @@
-import { client } from '../Entities/Client';
+import { client } from '../../types';
 import ClientsModel from './model/ClientsModel';
 
 export default class ClientsRepository {
   interface;
-  constructor(ClientModel: typeof ClientsModel) {
-    this.interface = ClientModel;
+  constructor(model: typeof ClientsModel) {
+    this.interface = model;
   }
 
   async getAll() {

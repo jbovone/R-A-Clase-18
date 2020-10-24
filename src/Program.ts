@@ -1,34 +1,35 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import DIContainer, { object, get } from 'rsdi';
+import DIContainer, { object, get, factory } from 'rsdi';
+import { Factory } from 'rsdi/definitions/FactoryDefinition';
 import ServerProvider from './Controller/Provider/ServerProvider';
 import { Router } from 'express';
 
-import { Sequelize } from 'sequelize';
-import repositoryConfig from './Repository/configuration/main_db.conf';
 import ViewController from './Controller/ViewController';
 
 import AutomobileController from './Controller/AutomobileController';
 import AutomobileService from './Service/AutomobileService';
 import AutomobileRepository from './Repository/AutomobileRepository';
-import AutomobileModel from './Repository/model/AutomobilesModel';
-import Automovile from './Model/Automovile';
+import AutomobilesModel from './Repository/model/AutomobilesModel';
+import Automobile from './Entities/Automovile';
 
 import ClientsController from './Controller/ClientsController';
 import ClientService from './Service/ClientService';
 import ClientsRepository from './Repository/ClientsRepository';
 import ClientsModel from './Repository/model/ClientsModel';
-import Client from './Model/Client';
+//import Client from './Entities/Client';
 
 import TransactionsController from './Controller/TransactionsController';
 import TransactionsService from './Service/TransactionService';
 import TransactionsRepository from './Repository/TransactionsRepository';
 import TransactionsModel from './Repository/model/TransactionsModel';
-import Transaction from './Model/Transaction';
+import Transaction from './Entities/Transaction';
+
+import addDatabaseDefinitions from './Repository/configuration/common';
+import { Sequelize } from 'sequelize/types';
 
 const program = new DIContainer();
-const sequelize = new Sequelize(repositoryConfig);
 
 const definitions = {
   Server: object(ServerProvider).construct(
@@ -41,28 +42,36 @@ const definitions = {
   ViewController: object(ViewController).construct(Router()),
 
   AutomobileController: object(AutomobileController).construct(Router(), get('AutomobileService')),
-  AutomobileService: object(AutomobileService).construct(Automovile, get('AutomobileRepository')),
-  AutomobileRepository: object(AutomobileRepository).construct(AutomobileModel),
+  AutomobileService: object(AutomobileService).construct(get('AutomobileRepository')),
+  AutomobileRepository: object(AutomobileRepository).construct(get('AutomobilesModel')),
+  AutomobilesModel: factory(configureAutomovilesModel as Factory),
 
   ClientsController: object(ClientsController).construct(Router(), get('ClientsService')),
-  ClientsService: object(ClientService).construct(Client, get('ClientsRepository')),
-  ClientsRepository: object(ClientsRepository).construct(ClientsModel),
+  ClientsService: object(ClientService).construct(get('ClientsRepository')),
+  ClientsRepository: object(ClientsRepository).construct(get('ClientsModel')),
+  ClientsModel: factory(configureTransactionsModel as Factory),
 
   TransactionsController: object(TransactionsController).construct(Router(), get('TransactionService')),
-  TransactionService: object(TransactionsService).construct(Transaction, get('TransactionsRepository')),
-  TransactionsRepository: object(TransactionsRepository).construct(TransactionsModel),
-
-  //SessionDatabase: object(Sequelize).construct(), TODO
+  TransactionService: object(TransactionsService).construct(get('TransactionsRepository')),
+  TransactionsRepository: object(TransactionsRepository).construct(get('TransactionsModel')),
+  TransactionsModel: factory(configureClientsModel as Factory),
 };
+
+function configureAutomovilesModel(container: DIContainer) {
+  return AutomobilesModel.setup(container.get('MainDB'));
+}
+function configureTransactionsModel(container: DIContainer) {
+  return ClientsModel.setup(container.get('MainDB'));
+}
+function configureClientsModel(container: DIContainer) {
+  return TransactionsModel.setup(container.get('MainDB'));
+}
 
 (async () => {
   try {
-    AutomobileModel.setup(sequelize);
-    ClientsModel.setup(sequelize);
-    TransactionsModel.setup(sequelize);
-    await Promise.all([AutomobileModel.sync(), ClientsModel.sync(), TransactionsModel.sync()]);
-
+    addDatabaseDefinitions(program);
     program.addDefinitions(definitions);
+    await program.get<Sequelize>('MainDB').sync();
     program.get('Server');
   } catch (error) {
     console.log(error);

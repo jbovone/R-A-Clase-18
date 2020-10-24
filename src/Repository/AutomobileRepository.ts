@@ -1,10 +1,10 @@
-import { automobile } from '../Entities/Automovile';
+import { automobile } from '../../types';
 import AutomobilesModel from './model/AutomobilesModel';
 
-export default class AutomovileRepository {
+export default class AutomobileRepository {
   interface;
-  constructor(AutomobileModel: typeof AutomobilesModel) {
-    this.interface = AutomobileModel;
+  constructor(model: typeof AutomobilesModel) {
+    this.interface = model;
   }
 
   async getAll() {
