@@ -1,10 +1,9 @@
-import DIContainer, { factory } from 'rsdi';
 import { Options } from 'sequelize';
 import { Sequelize } from 'sequelize';
 
 const development: Options = {
   dialect: 'sqlite',
-  storage: '../bin/rental_app.db',
+  storage: process.env.DB_PATH,
   logging: console.log,
 };
 

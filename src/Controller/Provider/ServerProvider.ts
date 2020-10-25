@@ -7,6 +7,7 @@ class ServerProvider {
   constructor(clients: module, automobile: module, transactions: module, view: module) {
     this.service = express();
     this.service.use(cors());
+    this.service.use(express.json());
     this.service.use(clients.base, clients.manifesto());
     this.service.use(automobile.base, automobile.manifesto());
     this.service.use(transactions.base, transactions.manifesto());

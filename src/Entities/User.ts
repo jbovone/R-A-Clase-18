@@ -1,12 +1,10 @@
 import { user } from "../../types";
 
 class User {
-  id: string;
   username: string;
   password: string;
   email: string;
   constructor(props: user) {
-    this.id = props.id;
     this.username = props.username;
     this.password = props.password;
     this.email = props.email;

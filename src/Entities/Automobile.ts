@@ -3,7 +3,7 @@ import { automobile } from "../../types";
 /**
  * Automovile base entity.
  */
-class Automovile implements automobile {
+class Automobile implements automobile {
   id;
   brand;
   model;
@@ -25,4 +25,4 @@ class Automovile implements automobile {
     this.status = props.status;
   }
 }
-export default Automovile;
+export default Automobile;

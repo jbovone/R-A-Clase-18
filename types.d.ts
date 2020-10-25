@@ -1,8 +1,14 @@
-import { Router } from 'express';
-import { RequestHandler, RequestParamHandler, PathParams } from 'express-serve-static-core';
+import { Router, Response } from 'express';
+import {
+  RequestHandler,
+  PathParams,
+  RequestParamHandler,
+  Request,
+  ParamsDictionary,
+} from 'express-serve-static-core';
 
 interface automobile {
-  id?: string;
+  id?: number;
   brand: string;
   model: string;
   year: number;
@@ -14,13 +20,13 @@ interface automobile {
 }
 
 interface user {
-  id: string;
   username: string;
   password: string;
   email: string;
 }
 
 interface client extends user {
+  id: number;
   firstName: string;
   lastName: string;
   documentType: string;
@@ -44,7 +50,7 @@ interface transaction {
 }
 
 interface baseController {
-  manifesto(): typeof Router;
+  manifesto(): Router;
   provider: Router;
   base: PathParams;
 }
@@ -58,6 +64,7 @@ interface ServiceBase {
 }
 
 interface clientsService extends ServiceBase {
+  login: RequestHandler;
   emailVerify: RequestHandler;
   completeRegistration: RequestHandler;
 }
@@ -76,3 +83,6 @@ interface RepositoryBase {
   create(automobile: automobile);
   remove(id: string);
 }
+
+interface Dispatch extends Response {}
+interface Event extends any {}

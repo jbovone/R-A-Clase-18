@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A rent car software managment system made for class 18 R/A",
   "main": "program.ts",
-  "author": "jbovone <nagethys@gmail.com>",
+  "author": "jbovone <bovonejulian@gmail.com>",
   "license": "MIT",
   "private": false,
   "dependencies": {

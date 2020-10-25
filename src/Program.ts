@@ -12,7 +12,7 @@ import AutomobileController from './Controller/AutomobileController';
 import AutomobileService from './Service/AutomobileService';
 import AutomobileRepository from './Repository/AutomobileRepository';
 import AutomobilesModel from './Repository/model/AutomobilesModel';
-import Automobile from './Entities/Automovile';
+import Automobile from './Entities/Automobile';
 
 import ClientsController from './Controller/ClientsController';
 import ClientService from './Service/ClientService';
@@ -43,8 +43,8 @@ const definitions = {
 
   AutomobileController: object(AutomobileController).construct(Router(), get('AutomobileService')),
   AutomobileService: object(AutomobileService).construct(get('AutomobileRepository')),
-  AutomobileRepository: object(AutomobileRepository).construct(get('AutomobilesModel')),
-  AutomobilesModel: factory(configureAutomovilesModel as Factory),
+  AutomobileRepository: object(AutomobileRepository).construct(get('AutomobilesModel'), Automobile),
+  AutomobilesModel: factory(configureAutomobilesModel as Factory),
 
   ClientsController: object(ClientsController).construct(Router(), get('ClientsService')),
   ClientsService: object(ClientService).construct(get('ClientsRepository')),
@@ -57,7 +57,7 @@ const definitions = {
   TransactionsModel: factory(configureClientsModel as Factory),
 };
 
-function configureAutomovilesModel(container: DIContainer) {
+function configureAutomobilesModel(container: DIContainer) {
   return AutomobilesModel.setup(container.get('MainDB'));
 }
 function configureTransactionsModel(container: DIContainer) {
@@ -69,9 +69,12 @@ function configureClientsModel(container: DIContainer) {
 
 (async () => {
   try {
-    addDatabaseDefinitions(program);
     program.addDefinitions(definitions);
-    await program.get<Sequelize>('MainDB').sync();
+
+    addDatabaseDefinitions(program);
+
+    program.get<Sequelize>('MainDB').sync();
+
     program.get('Server');
   } catch (error) {
     console.log(error);

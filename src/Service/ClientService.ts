@@ -17,11 +17,6 @@ class ClientService implements clientsService {
     const user = event.body;
   }
 
-  update(event: any, dispatch: any) {
-    const client = event.body;
-    const { id } = event.params;
-  }
-
   remove(event: any, dispatch: any) {
     const { id } = event.params;
     console.log('aca estamos', id);
@@ -34,6 +29,10 @@ class ClientService implements clientsService {
   }
 
   completeRegistration(event: any, dispatch: any) {}
+
+  login(event: any, dispatch: any) {
+    console.log(event.body);
+  }
 }
 
 export default ClientService;

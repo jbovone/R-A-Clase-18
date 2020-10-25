@@ -1,12 +1,11 @@
 import Sequelize, { Model, DataTypes } from 'sequelize';
 
-class AutomovileModel extends Model {
+class AutomobileModel extends Model {
   static setup(sequelizeInstance: Sequelize.Sequelize) {
-    AutomovileModel.init(
+    AutomobileModel.init(
       {
         id: {
           type: DataTypes.INTEGER,
-          allowNull: false,
           primaryKey: true,
           autoIncrement: true,
           unique: true,
@@ -32,7 +31,7 @@ class AutomovileModel extends Model {
           allowNull: false,
         },
         passengers: {
-          type: DataTypes.STRING,
+          type: DataTypes.INTEGER,
           allowNull: false,
         },
         gears: {
@@ -43,23 +42,15 @@ class AutomovileModel extends Model {
           type: DataTypes.STRING,
           allowNull: false,
         },
-        lastUpdated: {
-          type: DataTypes.DATE,
-          defaultValue: Sequelize.NOW,
-        },
-        createdAt: {
-          type: DataTypes.DATE,
-          defaultValue: Sequelize.NOW,
-        },
       },
       {
         sequelize: sequelizeInstance,
-        modelName: 'Automoviles',
-        timestamps: false,
+        modelName: 'Automobiles',
+        timestamps: true,
       }
     );
-    return AutomovileModel;
+    return AutomobileModel;
   }
 }
 
-export default AutomovileModel
+export default AutomobileModel;

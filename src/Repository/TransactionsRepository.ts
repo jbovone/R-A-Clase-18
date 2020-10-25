@@ -38,7 +38,7 @@ export default class ClientsRepository {
       newTransaction = await newTransaction.save();
     } catch (error) {
       console.log(error);
-      return error;
+      return false;
     }
   }
 

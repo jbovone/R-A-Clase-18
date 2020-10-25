@@ -1,5 +1,6 @@
 import { automobile } from '../../types';
 import AutomobilesModel from './model/AutomobilesModel';
+import Automobile from '../Entities/Automobile';
 
 export default class AutomobileRepository {
   interface;
@@ -8,44 +9,52 @@ export default class AutomobileRepository {
   }
 
   async getAll() {
-    const automobiles = await this.interface.findAll();
+    let automobiles;
+    try {
+      automobiles = await this.interface.findAll();
+    } catch (error) {
+      return false;
+    }
     return automobiles;
   }
 
-  async getById(id: string) {
-    const automobile = await this.interface.findOne({
-      where: { id },
-    });
-
-    return automobile;
+  async getById(id: number) {
+    let automobile;
+    try {
+      automobile = await this.interface.findOne({
+        where: { id },
+      });
+    } catch (error) {}
   }
-
   async getByfilters(filters: string) {
-    const automobiles = await this.interface.findAll({
-      where: {
-        id: filters,
-        name: filters,
-      },
-    });
+    let automobiles;
+    try {
+      automobiles = await this.interface.findAll({
+        where: {
+          id: filters,
+          name: filters,
+        },
+      });
+    } catch (error) {
+      return false;
+    }
     return automobiles;
   }
 
   async create(automobile: automobile) {
-    let Automobile;
-    const buildOptions = { isNewRecord: !automobile.id, include: this.interface };
-    Automobile = this.interface.build(automobile, buildOptions);
+    const newAutomobile = new Automobile(automobile);
+    newAutomobile.id = undefined;
+    const buildOptions = { isNewRecord: true };
     try {
-      Automobile = await Automobile.save();
+      await this.interface.build(newAutomobile, buildOptions).save();
+      return newAutomobile;
     } catch (error) {
       console.log(error);
-      return error;
+      return false;
     }
   }
 
-  async remove(id: string) {
-    if (!id) {
-      throw new Error('undefined automobile');
-    }
+  async remove(id: number) {
     return Boolean(await this.interface.destroy({ where: { id: id } }));
   }
 }

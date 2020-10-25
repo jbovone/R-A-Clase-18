@@ -1,6 +1,6 @@
-const LOADING = "LOADING";
-const LOGIN_SUCCES = "LOGIN_SUCCES";
-const LOGIN_ERROR = "LOGIN_ERROR";
+const LOADING = 'LOADING';
+const LOGIN_SUCCES = 'LOGIN_SUCCES';
+const LOGIN_ERROR = 'LOGIN_ERROR';
 
 const initialState = {
   loading: false,
@@ -24,17 +24,17 @@ export const loginReducer = (state = initialState, action) => {
   }
 };
 
-export const loginAction = (formData) => (dispatch, getState) => {
+export const loginAction = formData => (dispatch, getState) => {
   dispatch({
     type: LOADING,
   });
-  fetch("http://localhost:4000/clients/new", {
-    headers: { "content-type": "application/json" },
-    method: "post",
+  fetch('http://localhost:4000/clients/login', {
+    headers: { 'content-type': 'application/json' },
+    method: 'post',
     body: JSON.stringify(formData),
   })
-    .then((response) => {
-      console.log("RESPONSE", response);
+    .then(response => {
+      console.log('RESPONSE', response);
       if (response.ok) {
         dispatch({
           type: LOGIN_SUCCES,
@@ -42,7 +42,7 @@ export const loginAction = (formData) => (dispatch, getState) => {
         });
       }
     })
-    .catch((error) => {
+    .catch(error => {
       dispatch({
         type: LOGIN_ERROR,
         payload: error,
