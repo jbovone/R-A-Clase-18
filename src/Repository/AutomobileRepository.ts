@@ -1,6 +1,5 @@
-import { automobile } from '../../types';
+import { automobile, ID } from '../../types';
 import AutomobilesModel from './model/AutomobilesModel';
-import Automobile from '../Entities/Automobile';
 
 export default class AutomobileRepository {
   interface;
@@ -13,19 +12,23 @@ export default class AutomobileRepository {
     try {
       automobiles = await this.interface.findAll();
     } catch (error) {
-      return false;
+      throw new Error('');
     }
     return automobiles;
   }
 
-  async getById(id: number) {
+  async getById(id: ID) {
     let automobile;
     try {
       automobile = await this.interface.findOne({
         where: { id },
       });
-    } catch (error) {}
+    } catch (error) {
+      throw new Error('');
+    }
+    return automobile;
   }
+
   async getByfilters(filters: string) {
     let automobiles;
     try {
@@ -36,25 +39,23 @@ export default class AutomobileRepository {
         },
       });
     } catch (error) {
-      return false;
+      throw new Error('');
     }
     return automobiles;
   }
 
   async create(automobile: automobile) {
-    const newAutomobile = new Automobile(automobile);
-    newAutomobile.id = undefined;
+    let newAutomobile;
     const buildOptions = { isNewRecord: true };
     try {
-      await this.interface.build(newAutomobile, buildOptions).save();
-      return newAutomobile;
+      newAutomobile = await this.interface.build(automobile, buildOptions).save();
     } catch (error) {
-      console.log(error);
-      return false;
+      throw new Error('');
     }
+    return newAutomobile;
   }
 
-  async remove(id: number) {
+  async remove(id: ID) {
     return Boolean(await this.interface.destroy({ where: { id: id } }));
   }
 }

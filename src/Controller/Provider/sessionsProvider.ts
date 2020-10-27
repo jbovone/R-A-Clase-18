@@ -1,21 +1,24 @@
-import session from 'express-session';
+import session, { SessionOptions } from 'express-session';
 import sequelizeStore from 'connect-session-sequelize';
 import { Sequelize } from 'sequelize/types';
 
-function configureSession(db: Sequelize) {
-  const SequelizeStore = sequelizeStore(session.Store);
-
-  const ONE_WEEK_IN_SECONDS = 604800000;
-
-  const sessionOptions = {
-    store: new SequelizeStore({ db: db }),
-    secret: process.env.SESSION_SECRET!,
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: ONE_WEEK_IN_SECONDS },
-  };
-
-  return session(sessionOptions); //e.requesthandler
+class SessionSetup {
+  ONE_WEEK_IN_SECONDS;
+  options: SessionOptions;
+  SequelizeStore;
+  constructor(db: Sequelize) {
+    this.SequelizeStore = sequelizeStore(session.Store);
+    this.ONE_WEEK_IN_SECONDS = 604800000;
+    this.options = {
+      store: new this.SequelizeStore({ db: db }),
+      secret: process.env.SESSION_SECRET!,
+      resave: false,
+      saveUninitialized: false,
+      cookie: { maxAge: this.ONE_WEEK_IN_SECONDS },
+    };
+  }
+  generate() {
+    return session(this.options);
+  }
 }
-
-export default configureSession;
+export default SessionSetup;

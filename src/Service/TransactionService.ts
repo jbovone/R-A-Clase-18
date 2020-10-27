@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { transactionsService } from '../../types';
 
 class TransactionsService implements transactionsService {

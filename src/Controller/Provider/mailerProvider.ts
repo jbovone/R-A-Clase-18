@@ -1,6 +1,6 @@
 'use strict';
 import nodemailer from 'nodemailer';
-
+/**TODO! */
 /**
  * recipient: bar@example.com, baz@example.com'\
  * subject: @example get your mail verified!\

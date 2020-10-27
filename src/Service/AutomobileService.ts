@@ -1,26 +1,24 @@
-import { automobileService } from '../../types';
-import Undefined from './Exeptions/UndefinedItem';
-import { Dispatch } from '../../types';
-import { isAutomobileValid } from './Validation/validate';
+//@ts-nocheck
+import Undefined from '../Exeptions/UndefinedItem';
+import { isAutomobileValid } from '../Validation/validate';
+import session, { Store } from 'express-session';
+import { ID } from '../../types';
 
-export default class AutomovileService implements automobileService {
+export default class AutomovileService {
   automobileRepository;
   constructor(automobileRepository: any) {
     this.automobileRepository = automobileRepository;
   }
-  async getAll(_: any, dispatch: Dispatch) {
+  async getAll() {
     try {
       const response = await this.automobileRepository.getAll();
-      dispatch.send(response);
+      return response;
     } catch (error) {
-      dispatch.status(500).send(new Undefined(error));
+      return error;
     }
   }
 
-  async getById(event: any, dispatch: Dispatch) {
-    const { id } = event.params;
-    if (!id) return dispatch.status(400).send(new Undefined('malformed request'));
-
+  async getById(id: ID) {
     try {
       const response = await this.automobileRepository.getById(Number(id));
       dispatch.send(response);
@@ -57,6 +55,9 @@ export default class AutomovileService implements automobileService {
 
   async remove(event: any, dispatch: Dispatch) {
     const { id } = event.params;
+    if (!id) return dispatch.status(400).send(new Undefined('malformed request'));
+    try {
+    } catch (error) {}
     console.log('aca estamos', id);
     dispatch.send('OK!');
     return 'erased' + id;

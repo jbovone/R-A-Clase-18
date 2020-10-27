@@ -1,5 +1,7 @@
-import { client } from '../../types';
+import { client, ICLient, ID, user } from '../../types';
 import ClientsModel from './model/ClientsModel';
+import User from '../Entities/User';
+import { BuildOptions } from 'sequelize/types';
 
 export default class ClientsRepository {
   interface;
@@ -8,44 +10,73 @@ export default class ClientsRepository {
   }
 
   async getAll() {
-    const clients = await this.interface.findAll();
-    return clients;
+    try {
+      return await this.interface.findAll();
+    } catch (error) {
+      throw new Error('');
+    }
   }
 
   async getById(id: string) {
-    const client = await this.interface.findOne({
-      where: { id },
-    });
-
-    return client;
+    try {
+      const client = await this.interface.findOne({
+        where: { id },
+      });
+      return client;
+    } catch (error) {
+      throw new Error('');
+    }
   }
 
   async getByfilters(filters: string) {
-    const clients = await this.interface.findAll({
-      where: {
-        id: filters,
-        name: filters,
-      },
-    });
-    return clients;
+    try {
+      const clients = await this.interface.findAll({
+        where: {
+          id: filters /**TODO this should query %LIKE filters% against any prop*/,
+          name: filters,
+        },
+      });
+      console.error('A TODO IS MARKED HERE');
+      return clients;
+    } catch (error) {
+      throw new Error('');
+    }
   }
 
-  async create(client: client) {
-    let newClient;
-    const buildOptions = { isNewRecord: !client.id, include: this.interface };
-    newClient = this.interface.build(newClient, buildOptions);
+  async getByUserAndPassword(username: string, password: string) {
     try {
-      newClient = await newClient.save();
+      const client = await this.interface.findOne({
+        where: { username, password },
+      });
+      return client;
     } catch (error) {
-      console.log(error);
-      return error;
+      throw new Error('');
     }
+  }
+
+  async create(user: user) {
+    const newUser = new User(user);
+    const buildOptions: BuildOptions = { isNewRecord: true };
+    try {
+      const newModel = this.interface.build(newUser, buildOptions);
+      await newModel.save();
+      return newModel;
+    } catch (error) {
+      console.log(typeof 'ERROR');
+      throw new Error(error);
+    }
+  }
+
+  async update(item: ICLient, data: any, where: ID) {
+    await this.interface.update({ [item]: data }, { where: where as any });
   }
 
   async remove(id: string) {
-    if (!id) {
-      throw new Error('undefined automobile');
+    try {
+      const deleted = await this.interface.destroy({ where: { id: id } });
+      return Boolean(deleted);
+    } catch (error) {
+      throw new Error('');
     }
-    return Boolean(await this.interface.destroy({ where: { id: id } }));
   }
 }

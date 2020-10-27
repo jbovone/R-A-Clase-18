@@ -6,6 +6,13 @@ import {
   Request,
   ParamsDictionary,
 } from 'express-serve-static-core';
+import { Session } from '@types/express-session';
+import session from 'express-session';
+import ClientsRepository from './src/Repository/ClientsRepository';
+
+type ID = number;
+type category = number;
+type ICLient = keyof client;
 
 interface automobile {
   id?: number;
@@ -20,9 +27,12 @@ interface automobile {
 }
 
 interface user {
+  id?: number;
   username: string;
-  password: string;
   email: string;
+  emailVerified: boolean;
+  password: string;
+  category: category;
 }
 
 interface client extends user {
@@ -34,7 +44,7 @@ interface client extends user {
   address: string;
   telephone: number;
   bornDate: string;
-  isAdmin: boolean;
+  category: category;
 }
 
 interface transaction {
@@ -55,34 +65,53 @@ interface baseController {
   base: PathParams;
 }
 
-interface ServiceBase {
-  remove: RequestHandler;
-  create: RequestHandler;
-  getById: RequestHandler;
-  getAll: RequestHandler;
-  getByfilters: RequestHandler;
+/**   service layer      */
+
+interface baseService {
+  remove: (id: ID, access: category) => Promise<boolean>;
 }
 
-interface clientsService extends ServiceBase {
-  login: RequestHandler;
-  emailVerify: RequestHandler;
-  completeRegistration: RequestHandler;
+interface automobileService extends baseService {
+  automobileRepository: repository;
+  create: (user: user) => boolean;
+  getById: (id: ID) => automobile;
+  getAll: () => user[] | automobile[];
+  getByfilters: (params: string) => automobile[];
+  updateCar: (autmobile: automobile) => boolean;
 }
 
-interface automobileService extends ServiceBase {
-  updateCar: RequestHandler;
-}
-interface transactionsService extends ServiceBase {
-  extendContract: RequestHandler;
-}
-
-interface RepositoryBase {
-  getAll();
-  getById(id: string);
-  getByfilters(filters: string);
-  create(automobile: automobile);
-  remove(id: string);
+interface transactionsService extends baseService {
+  transactionsRepository: repository;
+  create: (user: transaction) => boolean;
+  getById: (id: ID) => transaction;
+  getAll: () => transaction[];
+  extendContract: (date: number) => boolean;
 }
 
-interface Dispatch extends Response {}
-interface Event extends any {}
+interface clientsService extends baseService {
+  clientsRepository: clientsRepository;
+  create: (user: user) => Promise<category>;
+  getById: (id: ID, auth: category) => Promise<user | false>;
+  getByfilters(filter: string, auth: category): any;
+  getAll: (cat: category) => Promise<user[] | false>;
+  authorization: (username: string, password: string) => Promise<category | false>;
+  emailVerify: (id: ID, code: string) => Promise<boolean>;
+  completeRegistration: (client: client, category: category) => Promise<boolean>;
+  accessUpdate: (id: ID, category: Number, auth: Number) => Promise<boolean>;
+}
+
+/** repository layer */
+
+interface clientsRepository {
+  getByUserAndPassword(username: string, password: string): Promise<user>;
+  getAll(): Promise<user[] | client[]>;
+  getById(id: ID): Promise<user | client>;
+  getByfilters(filter: string): Promise<user[] | client[] | boolean>;
+  create(item: object): Promise<user>;
+  remove(item: number): Promise<boolean>;
+  update(item: ICLient, data: any, where: ID): Promise<boolean>;
+}
+/**
+ * TODO find a better way to handle this, the returns in the service layer
+ * ain't the same, but bastly correlated que the ones in the repository,
+ */

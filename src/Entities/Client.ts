@@ -15,7 +15,6 @@ class Client extends User {
   address: string;
   telephone: number;
   bornDate: string;
-  isAdmin: boolean;
 
   constructor(props: client) {
     super(props);
@@ -26,7 +25,6 @@ class Client extends User {
     this.address = props.address;
     this.telephone = props.telephone;
     this.bornDate = props.bornDate;
-    this.isAdmin = props.isAdmin;
   }
 }
 

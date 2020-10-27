@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { Router } from 'express';
 import { transactionsService } from '../../types';
 

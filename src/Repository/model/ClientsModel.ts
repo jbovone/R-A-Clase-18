@@ -46,8 +46,8 @@ class ClientModel extends Model {
         bornDate: {
           type: DataTypes.INTEGER,
         },
-        isAdmin: {
-          type: DataTypes.BOOLEAN,
+        category: {
+          type: DataTypes.INTEGER,
         },
         lastUpdated: {
           type: DataTypes.DATE,
@@ -68,4 +68,4 @@ class ClientModel extends Model {
   }
 }
 
-export default ClientModel
+export default ClientModel;

@@ -3,14 +3,14 @@ const colors = ['orange', 'red', 'blue', 'white', 'green', 'black'];
 
 function generateClient(restricted = false) {
   const person = {
-    id: data.random.uuid(),
+    id: random(1000),
+    category: random(4),
     firstName: data.name.firstName(),
     lastName: data.name.lastName(),
     address: data.address.direction(),
     documentType: 'DNI',
     documentNumber: data.random.number({ max: 99999999 }),
     telephone: data.random.number({ max: 999999999 }),
-    isAdmin: false,
     username: data.internet.userName(),
     password: data.internet.password(random(13), true),
     bornDate: data.date.past(70),

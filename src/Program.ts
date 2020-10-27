@@ -5,6 +5,7 @@ import DIContainer, { object, get, factory } from 'rsdi';
 import { Factory } from 'rsdi/definitions/FactoryDefinition';
 import ServerProvider from './Controller/Provider/ServerProvider';
 import { Router } from 'express';
+import Session from './Controller/Provider/sessionsProvider';
 
 import ViewController from './Controller/ViewController';
 
@@ -18,7 +19,7 @@ import ClientsController from './Controller/ClientsController';
 import ClientService from './Service/ClientService';
 import ClientsRepository from './Repository/ClientsRepository';
 import ClientsModel from './Repository/model/ClientsModel';
-//import Client from './Entities/Client';
+import Client from './Entities/Client';
 
 import TransactionsController from './Controller/TransactionsController';
 import TransactionsService from './Service/TransactionService';
@@ -33,11 +34,14 @@ const program = new DIContainer();
 
 const definitions = {
   Server: object(ServerProvider).construct(
+    get('Session'),
     get('ClientsController'),
     get('AutomobileController'),
     get('TransactionsController'),
     get('ViewController')
   ),
+
+  Session: object(Session).construct(get('SessionDB')),
 
   ViewController: object(ViewController).construct(Router()),
 
@@ -69,12 +73,10 @@ function configureClientsModel(container: DIContainer) {
 
 (async () => {
   try {
-    program.addDefinitions(definitions);
-
     addDatabaseDefinitions(program);
-
+    program.addDefinitions(definitions);
     program.get<Sequelize>('MainDB').sync();
-
+    program.get<Sequelize>('SessionDB').sync();
     program.get('Server');
   } catch (error) {
     console.log(error);
