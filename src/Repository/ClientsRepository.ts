@@ -1,7 +1,10 @@
 import { client, ICLient, ID, user } from '../../types';
 import ClientsModel from './model/ClientsModel';
+import { Op } from 'sequelize';
 import User from '../Entities/User';
 import { BuildOptions } from 'sequelize/types';
+import InternalRepository from '../Exeptions/InternalRepository';
+import ValidationConstraints from '../Exeptions/ValidationConstraints';
 
 export default class ClientsRepository {
   interface;
@@ -10,10 +13,12 @@ export default class ClientsRepository {
   }
 
   async getAll() {
+    console.log('REPO');
     try {
       return await this.interface.findAll();
     } catch (error) {
-      throw new Error('');
+      console.log(error);
+      throw new InternalRepository(error);
     }
   }
 
@@ -24,7 +29,8 @@ export default class ClientsRepository {
       });
       return client;
     } catch (error) {
-      throw new Error('');
+      console.log(error);
+      throw new InternalRepository(error);
     }
   }
 
@@ -32,11 +38,9 @@ export default class ClientsRepository {
     try {
       const clients = await this.interface.findAll({
         where: {
-          id: filters /**TODO this should query %LIKE filters% against any prop*/,
-          name: filters,
+          [Op.like]: filters,
         },
       });
-      console.error('A TODO IS MARKED HERE');
       return clients;
     } catch (error) {
       throw new Error('');
@@ -62,8 +66,10 @@ export default class ClientsRepository {
       await newModel.save();
       return newModel;
     } catch (error) {
-      console.log(typeof 'ERROR');
-      throw new Error(error);
+      if (error.parent.code === 'SQLITE_CONSTRAINT') {
+        throw { fields: [...error.fields] };
+      }
+      throw new InternalRepository(error);
     }
   }
 

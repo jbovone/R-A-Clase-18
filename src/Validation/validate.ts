@@ -1,5 +1,3 @@
-import { user } from '../../types';
-
 export function isAutomobileValid(automobile: any) {
   const { brand, model, year, miles, color, passengers, gears, status } = automobile;
   if (typeof automobile !== 'object') return false;
@@ -17,13 +15,13 @@ export function isAutomobileValid(automobile: any) {
 export function isUserValid(user: any) {
   const { username, password, email } = user;
   if (typeof user !== 'object') return false;
-  console.log('pass');
+  console.log('pass request object');
   if (!isEmailValid(email)) return false;
-  console.log('pass');
+  console.log('pass email');
   if (!isUsernameValid(username)) return false;
-  console.log('pass');
+  console.log('pass username');
   if (!isPasswordValid(password)) return false;
-  console.log('pass');
+  console.log('pass password');
   return true;
 }
 
@@ -34,11 +32,13 @@ export function isEmailValid(email: any) {
 }
 
 export function isUsernameValid(username: any) {
-  return Boolean(typeof username === 'string' && username.length < 15 && /\w/g.test(username));
+  return Boolean(
+    typeof username === 'string' && username.length > 6 && username.length <= 12 && /\w/g.test(username)
+  );
 }
 
 export function isPasswordValid(password: any) {
-  return Boolean(typeof password === 'string' && password.length > 10 && password.length < 20);
+  return Boolean(typeof password === 'string' && password.length >= 8 && password.length <= 15);
 }
 
 export function isClientValid(item: any) {
@@ -65,5 +65,11 @@ export function isClientValid(item: any) {
   if (typeof telephone !== 'number' || telephone + ''.length > 15) return false;
   //if (typeof bornDate !== 'number' || bornDate + ''.length > 20) return false; ? don't know yet: 32/43/2003?
   if (typeof category !== 'number' || category + ''.length > 30) return false;
+  return true;
+}
+
+export function isSearchValid(filters: any) {
+  if (typeof filters !== 'string') return false;
+  if (filters.length > 20 || filters.length < 3) return false;
   return true;
 }

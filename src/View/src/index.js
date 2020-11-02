@@ -1,24 +1,25 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import 'bulma/css/bulma-rtl.min.css';
+import './index.css';
+import App from './App';
+import { Provider } from 'react-redux';
+import generateStore from './configuration/store';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-import "./index.css";
-import "bulma/css/bulma-rtl.min.css";
-
-import App from "./App";
-import { Provider } from "react-redux";
-import generateStore from "./configuration/store";
-
-import * as serviceWorker from "./serviceWorker";
+import * as serviceWorker from './serviceWorker';
 
 const store = generateStore();
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Router>
+        <App />
+      </Router>
     </Provider>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change

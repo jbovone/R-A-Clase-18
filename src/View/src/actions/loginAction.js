@@ -1,5 +1,8 @@
-const LOADING = 'LOADING';
-const LOGIN_SUCCES = 'LOGIN_SUCCES';
+import { LOGIN } from '../constants/routes';
+import axios from 'axios';
+
+const LOGIN_LOADING = 'LOGIN_LOADING';
+const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const LOGIN_ERROR = 'LOGIN_ERROR';
 
 const initialState = {
@@ -11,10 +14,10 @@ const initialState = {
 
 export const loginReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOADING:
+    case LOGIN_LOADING:
       return { ...state, loading: true };
 
-    case LOGIN_SUCCES:
+    case LOGIN_SUCCESS:
       return { ...state, loading: false, login: true, user: action.payload };
 
     case LOGIN_ERROR:
@@ -24,28 +27,27 @@ export const loginReducer = (state = initialState, action) => {
   }
 };
 
-export const loginAction = formData => (dispatch, getState) => {
+const loginAction = formData => (dispatch, getState) => {
   dispatch({
-    type: LOADING,
+    type: LOGIN_LOADING,
   });
-  fetch('http://localhost:4000/clients/login', {
-    headers: { 'content-type': 'application/json' },
-    method: 'post',
-    body: JSON.stringify(formData),
-  })
+  axios
+    .post(LOGIN, formData)
     .then(response => {
-      console.log('RESPONSE', response);
       if (response.ok) {
         dispatch({
-          type: LOGIN_SUCCES,
-          payload: response.json(),
+          type: LOGIN_SUCCESS,
+          payload: response.data.results,
         });
       }
     })
     .catch(error => {
       dispatch({
         type: LOGIN_ERROR,
-        payload: error,
+        payload: error.response.data,
       });
     });
+  return getState;
 };
+
+export default loginAction;

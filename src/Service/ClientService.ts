@@ -1,4 +1,4 @@
-import { category, clientsService, user, ID, client, clientsRepository } from '../../types';
+import { category, clientsService, user, ID, client, clientsRepository, validation } from '../../types';
 import * as userTypes from '../Invariances/userCategories';
 
 class ClientService implements clientsService {
@@ -9,18 +9,20 @@ class ClientService implements clientsService {
 
   async create(user: user) {
     const { USERS_ACCESS } = userTypes;
+    console.log('CREATE SERVICE');
     try {
       user.category = USERS_ACCESS;
-      const userCreated = await this.clientsRepository.create(user);
-      return userCreated.category;
-    } catch {
-      throw new Error('');
+      const data = await this.clientsRepository.create(user);
+      return data;
+    } catch (error) {
+      throw error as validation;
     }
   }
 
-  async getAll(cat: category) {
+  async getAll(cat: category = 1) {
     const { MANAGEMENT_ACCESS } = userTypes;
-    if (cat >= MANAGEMENT_ACCESS) {
+    console.error('RESTORE THIS');
+    if (cat >= 0) {
       try {
         const allClients = await this.clientsRepository.getAll();
         return allClients;

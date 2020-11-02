@@ -1,5 +1,6 @@
 import { automobile, ID } from '../../types';
 import AutomobilesModel from './model/AutomobilesModel';
+import { Op } from 'sequelize';
 
 export default class AutomobileRepository {
   interface;
@@ -28,14 +29,12 @@ export default class AutomobileRepository {
     }
     return automobile;
   }
-
   async getByfilters(filters: string) {
     let automobiles;
     try {
       automobiles = await this.interface.findAll({
         where: {
-          id: filters,
-          name: filters,
+          [Op.like]: filters,
         },
       });
     } catch (error) {
