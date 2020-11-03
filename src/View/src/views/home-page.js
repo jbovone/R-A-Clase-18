@@ -2,7 +2,6 @@
 import React from 'react';
 import { css, jsx } from '@emotion/core';
 import background from '../assets/streets.jpg';
-import { connect } from 'react-redux';
 import structural from '../constants/viewSkeleton';
 
 const lay = css({
@@ -18,8 +17,8 @@ const lay = css({
   },
 });
 
-function LandingPage() {
+function Home() {
   return <main css={lay}></main>;
 }
 
-export default LandingPage; //connect()();
+export default Home;

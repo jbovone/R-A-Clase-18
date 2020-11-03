@@ -4,7 +4,8 @@ import { Op } from 'sequelize';
 import User from '../Entities/User';
 import { BuildOptions } from 'sequelize/types';
 import InternalRepository from '../Exeptions/InternalRepository';
-import ValidationConstraints from '../Exeptions/ValidationConstraints';
+import { userValidation } from '../../types';
+import UserConstraints from '../Exeptions/ValidationConstraints';
 
 export default class ClientsRepository {
   interface;
@@ -67,7 +68,8 @@ export default class ClientsRepository {
       return newModel;
     } catch (error) {
       if (error.parent.code === 'SQLITE_CONSTRAINT') {
-        throw { fields: [...error.fields] };
+        const presentational = UserConstraints.format(error.fields);
+        throw presentational;
       }
       throw new InternalRepository(error);
     }

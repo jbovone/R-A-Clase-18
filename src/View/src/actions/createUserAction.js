@@ -2,8 +2,8 @@ import { CREATE_USER } from '../constants/routes';
 import axios from 'axios';
 
 const initialState = {
-  fetching: false,
-  newUser: null,
+  loading: false,
+  user: null,
   error: null,
 };
 
@@ -14,11 +14,11 @@ const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';
 export const createUserReducer = (state = initialState, action) => {
   switch (action.type) {
     case POSTING_USER:
-      return { ...state, fetching: true };
+      return { ...state, loading: true };
     case CREATE_USER_ERROR:
-      return { ...state, fetching: false, error: action.payload };
+      return { ...state, loading: false, error: action.payload };
     case CREATE_USER_SUCCESS:
-      return { ...state, fetching: false, newUser: action.payload };
+      return { ...state, loading: false, user: action.payload };
     default:
       return { ...state };
   }

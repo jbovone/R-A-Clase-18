@@ -1,4 +1,4 @@
-import { category, clientsService, user, ID, client, clientsRepository, validation } from '../../types';
+import { category, clientsService, user, ID, client, clientsRepository } from '../../types';
 import * as userTypes from '../Invariances/userCategories';
 
 class ClientService implements clientsService {
@@ -15,7 +15,8 @@ class ClientService implements clientsService {
       const data = await this.clientsRepository.create(user);
       return data;
     } catch (error) {
-      throw error as validation;
+      console.log(error);
+      throw error;
     }
   }
 

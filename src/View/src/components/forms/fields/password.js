@@ -18,7 +18,7 @@ const Password = ({ error, touched }) => {
         {!touched ? null : error ? (
           <p className="help is-danger">{error}</p>
         ) : (
-          <p className="help is-success">This password is correct</p>
+          <p className="help is-success">Has min lenght of 8 and max lenght of 15.</p>
         )}
         <span className="icon is-small is-left">
           <FaPassport />

@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled';
-
-import { FaSearch } from 'react-icons/fa';
+import { connect } from 'react-redux';
 import { FaUser } from 'react-icons/fa';
+import { FaUserPlus } from 'react-icons/fa';
 import Logo from './logo';
 import colors from '../constants/colors';
-import driver from '../assets/driver3.jpg.bmp';
+import driver from '../assets/driver 03.jpg';
 import { NavLink } from 'react-router-dom';
 
 const StyledHeader = styled.header({
@@ -40,24 +40,37 @@ const StyledHeader = styled.header({
   },
 });
 
-function Header() {
+function Header({ login }) {
   return (
     <StyledHeader>
       <Logo>Lend me a Wheel.Com</Logo>
       <div>
-        <NavLink
-          to="/account"
-          activeStyle={{
-            fontWeight: 'bold',
-            color: 'red',
-          }}
-        >
-          <FaUser />
-          <div>Account</div>
-        </NavLink>
+        {!login ? (
+          <NavLink
+            to="/account"
+            activeStyle={{
+              fontWeight: 'bold',
+              color: 'red',
+            }}
+          >
+            <FaUserPlus />
+            <div>Account</div>
+          </NavLink>
+        ) : (
+          <NavLink
+            to="/usercp"
+            activeStyle={{
+              fontWeight: 'bold',
+              color: 'red',
+            }}
+          >
+            <FaUser />
+            <div>User Panel</div>
+          </NavLink>
+        )}
       </div>
     </StyledHeader>
   );
 }
-
-export default Header;
+const mapStateToProps = state => ({ login: state.login.login });
+export default connect(mapStateToProps)(Header);

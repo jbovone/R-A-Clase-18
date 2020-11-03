@@ -1,21 +1,33 @@
 /** @jsx jsx */
 import React from 'react';
 import { css, jsx } from '@emotion/core';
-import background from '../assets/streets.jpg';
+//import background from '../assets/streets.jpg';
 import { FaCheck } from 'react-icons/fa';
-import { connect } from 'react-redux';
 import structural from '../constants/viewSkeleton';
 
 const lay = css({
   ...structural,
   display: 'flex',
-  alignItems: 'center',
+  flexDirection: 'column',
+  alignItems: 'flex-end',
   justifyContent: 'center',
-  background: `url("${background}") no-repeat`,
-  backgroundSize: 'contain',
-  '&>li': {
-    listStyle: 'none',
+  height: 'inherit',
+  '&>ol': {
+    display: 'flex',
+    width: '90%',
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    '&>li': {
+      textIndent: '3px',
+      '&>svg': {
+        margin: '0 5px',
+        fill: 'green',
+      },
+    },
   },
+  //background: `url("${background}") no-repeat`,
+  backgroundSize: 'contain',
 });
 
 function LandingPage() {
@@ -47,4 +59,4 @@ function LandingPage() {
   );
 }
 
-export default LandingPage; //connect()();
+export default LandingPage;

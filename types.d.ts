@@ -88,12 +88,10 @@ interface transactionsService extends baseService {
   extendContract: (date: number) => boolean;
 }
 
-interface validation {
-  fields: string[];
-}
+type userValidation = ['username'?, 'password'?];
 interface clientsService extends baseService {
   clientsRepository: clientsRepository;
-  create: (user: user) => Promise<user | validation>;
+  create: (user: user) => Promise<user | userValidation>;
   getById: (id: ID, auth: category) => Promise<user | false>;
   getByfilters(filter: string, auth: category): any;
   getAll: (cat: category) => Promise<user[] | false>;
@@ -110,7 +108,7 @@ interface clientsRepository {
   getAll(): Promise<user[] | client[]>;
   getById(id: ID): Promise<user | client>;
   getByfilters(filter: string): Promise<user[] | client[] | boolean>;
-  create(item: user): Promise<user | validation>;
+  create(item: user): Promise<user | userValidation>;
   remove(item: number): Promise<boolean>;
   update(item: ICLient, data: any, where: ID): Promise<boolean>;
 }

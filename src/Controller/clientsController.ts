@@ -1,8 +1,7 @@
 import { Router } from 'express';
-import { category, clientsService, validation, user } from '../../types';
+import { clientsService } from '../../types';
 import { Request, Response } from 'express-serve-static-core';
 import { isUserValid, isUsernameValid, isPasswordValid, isSearchValid } from '../Validation/validate';
-import { Console } from 'console';
 
 export default class ClientController {
   provider;
@@ -39,7 +38,10 @@ export default class ClientController {
         await this.service.create(body);
         response.sendStatus(202);
       } catch (error) {
-        if (error.fields) return response.status(403).send(JSON.stringify(error));
+        console.log(error);
+        if (error.username || error.email) {
+          return response.status(403).send(JSON.stringify(error));
+        }
         response.sendStatus(500);
       }
     } else {

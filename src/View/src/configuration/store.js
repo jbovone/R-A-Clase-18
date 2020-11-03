@@ -2,12 +2,16 @@ import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import { loginReducer } from '../actions/loginAction';
 import { createUserReducer } from '../actions/createUserAction';
 import { createCarReducer } from '../actions/createCarAction';
+import { getCarsReducer } from '../actions/getCarsAction';
+import { usersReducer } from '../actions/getUsersAction';
 import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
   login: loginReducer,
   createUser: createUserReducer,
   createCar: createCarReducer,
+  users: usersReducer,
+  automobiles: getCarsReducer,
 });
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

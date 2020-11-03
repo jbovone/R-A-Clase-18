@@ -18,7 +18,7 @@ const Username = ({ error, touched }) => {
         {!touched ? null : error ? (
           <p className="help is-danger">{error}</p>
         ) : (
-          <p className="help is-success">This username is available</p>
+          <p className="help is-success">Has min lenght of 6 and max lenght of 12.</p>
         )}
         <span className="icon is-small is-left">
           <FaUser />

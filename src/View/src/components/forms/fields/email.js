@@ -1,9 +1,6 @@
 import React from 'react';
-import styled from '@emotion/styled';
 import { Field } from 'formik';
 import { FaCheck, FaEnvelope } from 'react-icons/fa';
-
-const Styled = styled.header``;
 
 const Email = ({ error, touched }) => {
   return (
@@ -20,7 +17,7 @@ const Email = ({ error, touched }) => {
         {!touched ? null : error ? (
           <p className="help is-danger">{error}</p>
         ) : (
-          <p className="help is-success">This email is correct</p>
+          <p className="help is-success">This email is correct.</p>
         )}
         <span className="icon is-small is-left">
           <FaEnvelope />

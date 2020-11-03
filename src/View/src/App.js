@@ -1,12 +1,12 @@
 import React from 'react';
-import About from './views/about';
+import About from './views/about-page';
 import Header from './components/header';
 import Nav from './components/nav';
 import styled from '@emotion/styled';
-import Bookings from './components/forms/bookForm';
+import Bookings from './components/forms/bookings/bookings-form';
 import { Route } from 'react-router-dom';
-import Home from './views/home';
-import Login from './views/login';
+import Home from './views/home-page';
+import Login from './views/account-page/account-page';
 
 function main() {
   return (

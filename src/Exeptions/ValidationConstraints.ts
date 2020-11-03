@@ -1,9 +1,15 @@
-//https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-2.html
-class ValidationConstraints extends Error {
-  constructor(message: string) {
-    super(message); // 'Error' breaks prototype chain here
-    Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain
+import { userValidation } from '../../types';
+
+class UserConstraints {
+  static format(validation: userValidation) {
+    const fields: any = {};
+    validation.forEach(field => {
+      if (field) {
+        fields[field] = `This ${field} is aready in use`;
+      }
+    });
+    return fields;
   }
 }
 
-export default ValidationConstraints;
+export default UserConstraints;
