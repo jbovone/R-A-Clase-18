@@ -1,6 +1,9 @@
+import axios from 'axios';
 import { CREATE_CAR } from '../constants/routes';
+import { SERVER_LOST } from '../constants/messajes';
+
 const POSTING_CAR = 'POSTING_CAR';
-const CREATE_CAR_SUCCES = 'CREATE_CAR_SUCCES';
+const CREATE_CAR_SUCCESS = 'CREATE_CAR_SUCCES';
 const CREATE_CAR_ERROR = 'LOGIN_ERROR';
 
 const initialState = {
@@ -14,7 +17,7 @@ export const createCarReducer = (state = initialState, action) => {
     case POSTING_CAR:
       return { ...state, loading: true };
 
-    case CREATE_CAR_SUCCES:
+    case CREATE_CAR_SUCCESS:
       return { ...state, loading: false, newCar: true };
 
     case CREATE_CAR_ERROR:
@@ -25,29 +28,27 @@ export const createCarReducer = (state = initialState, action) => {
 };
 
 const createCarAction = formData => (state, dispatch) => {
-  dispatch({
-    type: POSTING_CAR,
-  });
-  fetch(CREATE_CAR, {
-    headers: { 'content-type': 'application/json' },
-    method: 'post',
-    body: JSON.stringify(formData),
-  })
+  dispatch({ type: POSTING_CAR });
+  axios
+    .post(CREATE_CAR, formData)
     .then(response => {
-      if (response.ok) {
-        dispatch({
-          type: CREATE_CAR_SUCCES,
-          payload: response.json(),
-        });
-      }
+      dispatch({
+        type: CREATE_CAR_SUCCESS,
+        payload: response.data.results,
+      });
     })
     .catch(error => {
+      let errMsg;
+      try {
+        errMsg = error.response.data;
+      } catch {
+        errMsg = SERVER_LOST;
+      }
       dispatch({
         type: CREATE_CAR_ERROR,
-        payload: error,
+        payload: errMsg,
       });
     });
-  return state;
 };
 
 export default createCarAction;

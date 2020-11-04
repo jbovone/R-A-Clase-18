@@ -1,4 +1,5 @@
 import { GET_CARS } from '../constants/routes';
+import { SERVER_LOST } from '../constants/messajes';
 import axios from 'axios';
 
 const GETTING_CARS = 'GETTING_CARS';
@@ -41,9 +42,15 @@ const getCarsAction = formData => (state, dispatch) => {
       }
     })
     .catch(error => {
+      let errMsg;
+      try {
+        errMsg = error.response.data;
+      } catch {
+        errMsg = SERVER_LOST;
+      }
       dispatch({
         type: GET_CARS_ERROR,
-        payload: error.response.data,
+        payload: errMsg,
       });
     });
   return state;

@@ -1,4 +1,5 @@
 import { CREATE_USER } from '../constants/routes';
+import { SERVER_LOST } from '../constants/messajes';
 import axios from 'axios';
 
 const initialState = {
@@ -29,15 +30,22 @@ const createUserAction = formData => dispatch => {
   axios
     .post(CREATE_USER, formData)
     .then(response => {
+      console.log(response.data);
       dispatch({
         type: CREATE_USER_SUCCESS,
-        payload: response.data.results,
+        payload: response.data,
       });
     })
     .catch(error => {
+      let errMsg;
+      try {
+        errMsg = error.response.data;
+      } catch {
+        errMsg = SERVER_LOST;
+      }
       dispatch({
         type: CREATE_USER_ERROR,
-        payload: error.response.data,
+        payload: errMsg,
       });
     });
 };

@@ -13,7 +13,8 @@ const StyliedForm = formStyle.withComponent(Form);
 
 const Signup = ({ onSubmit, data }) => {
   const [agree, setAgree] = useState(false);
-  const { loading, error } = data;
+  const { loading, error, user } = data;
+  console.log(user);
   let usernameAsyncError;
   let emailAsyncError;
   try {
@@ -24,9 +25,9 @@ const Signup = ({ onSubmit, data }) => {
   return (
     <Formik
       initialValues={{
-        username: 'admin',
-        password: 'admin',
-        email: 'admin@admin.com',
+        username: '',
+        password: '',
+        email: '',
       }}
       validationSchema={SignupSchema}
       onSubmit={values => {

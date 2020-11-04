@@ -14,7 +14,6 @@ export default class ClientsRepository {
   }
 
   async getAll() {
-    console.log('REPO');
     try {
       return await this.interface.findAll();
     } catch (error) {
@@ -68,8 +67,8 @@ export default class ClientsRepository {
       return newModel;
     } catch (error) {
       if (error.parent.code === 'SQLITE_CONSTRAINT') {
-        const presentational = UserConstraints.format(error.fields);
-        throw presentational;
+        const formated = UserConstraints.format(error.fields);
+        throw new UserConstraints(formated);
       }
       throw new InternalRepository(error);
     }

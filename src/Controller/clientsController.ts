@@ -2,6 +2,8 @@ import { Router } from 'express';
 import { clientsService } from '../../types';
 import { Request, Response } from 'express-serve-static-core';
 import { isUserValid, isUsernameValid, isPasswordValid, isSearchValid } from '../Validation/validate';
+import UserConstraints from '../Exeptions/ValidationConstraints';
+import UserAccessOne from './DTOs/UserCatOne';
 
 export default class ClientController {
   provider;
@@ -27,19 +29,16 @@ export default class ClientController {
   }
 
   async create({ body, session }: Request, response: Response) {
-    console.log('CREATE', body);
     const cat: number | undefined = session!.userCategory;
-    if (cat) {
-      console.error('a logged user cannot create an account');
-      return response.sendStatus(403);
-    }
+    if (cat) return response.sendStatus(403);
+
     if (isUserValid(body)) {
       try {
-        await this.service.create(body);
-        response.sendStatus(202);
+        const user = await this.service.create(body);
+        response.status(202).send(new UserAccessOne(user));
       } catch (error) {
-        console.log(error);
-        if (error.username || error.email) {
+        if (error instanceof UserConstraints) {
+          console.log(error);
           return response.status(403).send(JSON.stringify(error));
         }
         response.sendStatus(500);
@@ -89,10 +88,11 @@ export default class ClientController {
 
   async login({ body, session }: Request, response: Response) {
     const { username, password } = body;
+    console.log(body);
     const cat = session!.userCategory;
-    if (!cat) return response.sendStatus(403);
-
+    if (cat) return response.sendStatus(403);
     if (isUsernameValid(username) && isPasswordValid(password)) {
+      console.log('PASSED VALIDATION');
       try {
         const cat = await this.service.authorization(username, password);
         if (cat) {
@@ -104,6 +104,7 @@ export default class ClientController {
         response.sendStatus(500);
       }
     }
+    response.sendStatus(406);
   }
 
   async logout({ session }: Request, response: Response) {

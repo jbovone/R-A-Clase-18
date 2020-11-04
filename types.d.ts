@@ -88,7 +88,6 @@ interface transactionsService extends baseService {
   extendContract: (date: number) => boolean;
 }
 
-type userValidation = ['username'?, 'password'?];
 interface clientsService extends baseService {
   clientsRepository: clientsRepository;
   create: (user: user) => Promise<user | userValidation>;
@@ -101,8 +100,6 @@ interface clientsService extends baseService {
   accessUpdate: (id: ID, category: Number, auth: Number) => Promise<boolean>;
 }
 
-/** repository layer */
-
 interface clientsRepository {
   getByUserAndPassword(username: string, password: string): Promise<user>;
   getAll(): Promise<user[] | client[]>;
@@ -112,7 +109,9 @@ interface clientsRepository {
   remove(item: number): Promise<boolean>;
   update(item: ICLient, data: any, where: ID): Promise<boolean>;
 }
-/**
- * TODO find a better way to handle this, the returns in the service layer
- * ain't the same, but bastly correlated que the ones in the repository,
- */
+
+type userValidation = ['username'?, 'email'?];
+interface userConstraints {
+  username?: string;
+  email?: string;
+}

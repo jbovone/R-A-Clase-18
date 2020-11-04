@@ -1,5 +1,6 @@
 import { category, clientsService, user, ID, client, clientsRepository } from '../../types';
 import * as userTypes from '../Invariances/userCategories';
+import UserConstraints from '../Exeptions/ValidationConstraints';
 
 class ClientService implements clientsService {
   clientsRepository: clientsRepository;
@@ -9,26 +10,24 @@ class ClientService implements clientsService {
 
   async create(user: user) {
     const { USERS_ACCESS } = userTypes;
-    console.log('CREATE SERVICE');
     try {
       user.category = USERS_ACCESS;
-      const data = await this.clientsRepository.create(user);
-      return data;
+      const newUser = await this.clientsRepository.create(user);
+      return newUser;
     } catch (error) {
-      console.log(error);
-      throw error;
+      if (error instanceof UserConstraints) throw error;
+      throw new Error('Client Service Unhandled');
     }
   }
 
   async getAll(cat: category = 1) {
     const { MANAGEMENT_ACCESS } = userTypes;
-    console.error('RESTORE THIS');
-    if (cat >= 0) {
+    if (cat === MANAGEMENT_ACCESS) {
       try {
         const allClients = await this.clientsRepository.getAll();
         return allClients;
       } catch (error) {
-        throw new Error('');
+        throw new Error('Client Service Unhandled');
       }
     }
     return false;
@@ -44,7 +43,7 @@ class ClientService implements clientsService {
         return false;
       }
     } catch (error) {
-      throw new Error('');
+      throw new Error('Client Service Unhandled');
     }
   }
 
@@ -57,7 +56,7 @@ class ClientService implements clientsService {
         return false;
       }
     } catch (error) {
-      throw new Error('');
+      throw new Error('Client Service Unhandled');
     }
   }
 
@@ -66,13 +65,12 @@ class ClientService implements clientsService {
     try {
       if (access === ADMINISTRATIVE_ACCESS) {
         const erased = await this.clientsRepository.remove(id);
-        console.log(erased, 'ERASED');
         return erased;
       } else {
-        return false; //an extra undefined status can be defined here.
+        return false;
       }
     } catch (error) {
-      throw new Error('');
+      throw new Error('Client Service Unhandled');
     }
   }
 
@@ -90,18 +88,20 @@ class ClientService implements clientsService {
       }
       return false;
     } catch (error) {
-      throw new Error('');
+      throw new Error('Client Service Unhandled');
     }
   }
 
   async authorization(username: string, password: string) {
     try {
-      const { id, category } = await this.clientsRepository.getByUserAndPassword(username, password);
-
-      if (id) return category;
-      return false;
+      const client = await this.clientsRepository.getByUserAndPassword(username, password);
+      if (!client) {
+        return false;
+      }
+      return client.category;
     } catch (error) {
-      throw new Error('');
+      console.log(error);
+      throw new Error('Client Service Unhandled');
     }
   }
 
@@ -110,13 +110,12 @@ class ClientService implements clientsService {
     try {
       if (auth === ADMINISTRATIVE_ACCESS) {
         const success = await this.clientsRepository.update('category', category, id);
-        console.log(success, 'SUCCESS');
         return success;
       } else {
         return false;
       }
     } catch (error) {
-      throw new Error('');
+      throw new Error('Client Service Unhandled');
     }
   }
 }

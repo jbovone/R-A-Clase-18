@@ -1,4 +1,5 @@
 import { LOGIN } from '../constants/routes';
+import { SERVER_LOST } from '../constants/messajes';
 import axios from 'axios';
 
 const LOGIN_LOADING = 'LOGIN_LOADING';
@@ -42,9 +43,15 @@ const loginAction = formData => (dispatch, getState) => {
       }
     })
     .catch(error => {
+      let errMsg;
+      try {
+        errMsg = error.response.data;
+      } catch {
+        errMsg = SERVER_LOST;
+      }
       dispatch({
         type: LOGIN_ERROR,
-        payload: error.response.data,
+        payload: errMsg,
       });
     });
   return getState;

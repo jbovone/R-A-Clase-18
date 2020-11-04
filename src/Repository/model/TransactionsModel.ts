@@ -1,6 +1,4 @@
 import Sequelize, { Model, DataTypes } from 'sequelize';
-import AutomovileModel from './AutomobilesModel';
-import ClientsModel from './ClientsModel';
 
 class TransactionsModel extends Model {
   static setup(sequelizeInstance: Sequelize.Sequelize) {
@@ -36,7 +34,7 @@ class TransactionsModel extends Model {
           type: DataTypes.INTEGER,
         },
         fkAlive: {
-          type: DataTypes.BOOLEAN, //!!car.statuts === "in-service"
+          type: DataTypes.BOOLEAN,
         },
         lastUpdated: {
           type: DataTypes.DATE,
@@ -55,10 +53,10 @@ class TransactionsModel extends Model {
     );
     return TransactionsModel;
   }
-  static setupAssociations(ClientsModel:any, AutomovileModel:any) {
+  static setupAssociations(ClientsModel: any, AutomovileModel: any) {
     TransactionsModel.belongsTo(ClientsModel, { foreignKey: 'id' });
     TransactionsModel.belongsTo(AutomovileModel, { foreignKey: 'id' });
   }
 }
 
-export default TransactionsModel
+export default TransactionsModel;

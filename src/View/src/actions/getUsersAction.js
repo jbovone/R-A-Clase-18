@@ -1,4 +1,5 @@
 import { GET_USERS } from '../constants/routes';
+import { SERVER_LOST } from '../constants/messajes';
 import axios from 'axios';
 
 const GETTING_USERS = 'GETTING_USERS';
@@ -41,9 +42,15 @@ const usersAction = formData => (dispatch, getState) => {
       }
     })
     .catch(error => {
+      let errMsg;
+      try {
+        errMsg = error.response.data;
+      } catch {
+        errMsg = SERVER_LOST;
+      }
       dispatch({
         type: GET_USERS_ERROR,
-        payload: error.response.data,
+        payload: errMsg,
       });
     });
   return getState;

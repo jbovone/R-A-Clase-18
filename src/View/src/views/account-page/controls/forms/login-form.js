@@ -13,9 +13,8 @@ const Signup = ({ onSubmit, data }) => {
   return (
     <Formik
       initialValues={{
-        username: 'admin',
-        password: 'admin',
-        email: 'admin@admin.com',
+        username: '',
+        password: '',
       }}
       onSubmit={values => {
         onSubmit(values);
@@ -27,7 +26,7 @@ const Signup = ({ onSubmit, data }) => {
         <Password />
         <button className="btn button is-link">Submit</button>
         {loading && <progress className="progress is-small is-primary" max="100" />}
-        {error && <div className="help is-danger">aasdf</div>}
+        {error && <div className="help is-danger">{error}</div>}
       </StyliedForm>
     </Formik>
   );

@@ -60,18 +60,6 @@ class AutomobileController implements baseController {
     }
   }
   async getAll(_: Request, response: Response) {
-    /**
-     * in principle i did consider this should be no-auth action.
-     * Cause even a visitor should be able to see the products,
-     * (usually... y have checked cases out there, in some
-     * of them you can "suppose" that the provider does not even have any cars,
-     * and only sells a promise to get you one if you pay).
-     *
-     * But should be necessary to filter certain sensitive data in the DTO
-     * about the cars, we need to ckeck who will be using this,
-     * probably will be absolutely necessary no matter the case.
-     * Experiment and fail, when the front is in good shape i plan to review this one.
-     * */
     console.error('TODO MARK');
     try {
       const automobiles = await this.service.getAll();

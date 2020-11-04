@@ -33,7 +33,7 @@ export function isEmailValid(email: any) {
 
 export function isUsernameValid(username: any) {
   return Boolean(
-    typeof username === 'string' && username.length > 6 && username.length <= 12 && /\w/g.test(username)
+    typeof username === 'string' && username.length >= 6 && username.length <= 12 && /\w/g.test(username)
   );
 }
 
