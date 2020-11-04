@@ -1,6 +1,6 @@
-# This is a rental app, and a job in progress for R/A Bootcamp.
 
-This Backend delivers a React app and then behaves like an api delivering json from its database as needed.
+
+This an hybrid Backend, delivers a React app and then behaves like an api serving json from its database as needed.
 
 ### Technologies:
 
