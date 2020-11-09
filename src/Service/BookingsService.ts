@@ -1,8 +1,12 @@
 //@ts-nocheck
-import { transactionsService } from '../../types';
+import { bookingsService } from '../../types';
 
-class TransactionsService implements transactionsService {
+class BookingsService implements bookingsService {
   constructor() {}
+
+  create(event: any, dispatch: any) {
+    const user = event.body;
+  }
 
   getAll(_: any, dispatch: any) {}
 
@@ -12,10 +16,6 @@ class TransactionsService implements transactionsService {
 
   getByfilters(event: any, dispatch: any) {
     const { filter } = event.params;
-  }
-
-  create(event: any, dispatch: any) {
-    const user = event.body;
   }
 
   update(event: any, dispatch: any) {
@@ -32,4 +32,4 @@ class TransactionsService implements transactionsService {
   extendContract(event: any, dispatch: any) {}
 }
 
-export default TransactionsService;
+export default BookingsService;

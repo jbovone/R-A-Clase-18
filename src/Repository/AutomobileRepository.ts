@@ -1,5 +1,6 @@
 import { automobile, ID } from '../../types';
 import AutomobilesModel from './model/AutomobilesModel';
+import InternalRepository from '../Exeptions/InternalRepository';
 import { Op } from 'sequelize';
 
 export default class AutomobileRepository {
@@ -13,7 +14,7 @@ export default class AutomobileRepository {
     try {
       automobiles = await this.interface.findAll();
     } catch (error) {
-      throw new Error('');
+      throw new InternalRepository(error);
     }
     return automobiles;
   }
@@ -25,7 +26,7 @@ export default class AutomobileRepository {
         where: { id },
       });
     } catch (error) {
-      throw new Error('');
+      throw new InternalRepository(error);
     }
     return automobile;
   }
@@ -38,7 +39,7 @@ export default class AutomobileRepository {
         },
       });
     } catch (error) {
-      throw new Error('');
+      throw new InternalRepository(error);
     }
     return automobiles;
   }
@@ -49,12 +50,16 @@ export default class AutomobileRepository {
     try {
       newAutomobile = await this.interface.build(automobile, buildOptions).save();
     } catch (error) {
-      throw new Error('');
+      throw new InternalRepository(error);
     }
     return newAutomobile;
   }
 
   async remove(id: ID) {
-    return Boolean(await this.interface.destroy({ where: { id: id } }));
+    try {
+      return Boolean(await this.interface.destroy({ where: { id: id } }));
+    } catch (error) {
+      throw new InternalRepository(error);
+    }
   }
 }

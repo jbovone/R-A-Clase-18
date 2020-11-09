@@ -1,5 +1,5 @@
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
-import { loginReducer } from '../actions/loginAction';
+import { loginReducer } from '../actions/authActions';
 import { createUserReducer } from '../actions/createUserAction';
 import { createCarReducer } from '../actions/createCarAction';
 import { getCarsReducer } from '../actions/getCarsAction';

@@ -1,6 +1,8 @@
 import { category, clientsService, user, ID, client, clientsRepository } from '../../types';
 import * as userTypes from '../Invariances/userCategories';
 import UserConstraints from '../Exeptions/ValidationConstraints';
+import AccessDenied from '../Exeptions/AccessDenied';
+import UndefinedUser from '../Exeptions/UndefinedUser';
 
 class ClientService implements clientsService {
   clientsRepository: clientsRepository;
@@ -22,15 +24,17 @@ class ClientService implements clientsService {
 
   async getAll(cat: category = 1) {
     const { MANAGEMENT_ACCESS } = userTypes;
-    if (cat === MANAGEMENT_ACCESS) {
-      try {
-        const allClients = await this.clientsRepository.getAll();
-        return allClients;
-      } catch (error) {
-        throw new Error('Client Service Unhandled');
-      }
+
+    if (cat < MANAGEMENT_ACCESS) {
+      throw new AccessDenied('Forbidden');
     }
-    return false;
+
+    try {
+      const allClients = await this.clientsRepository.getAll();
+      return allClients;
+    } catch (error) {
+      throw new Error('Client Service Unhandled');
+    }
   }
 
   async getById(id: ID, auth: category) {
@@ -40,7 +44,7 @@ class ClientService implements clientsService {
         const client = await this.clientsRepository.getById(id);
         return client;
       } else {
-        return false;
+        throw new AccessDenied('Forbidden');
       }
     } catch (error) {
       throw new Error('Client Service Unhandled');
@@ -53,7 +57,7 @@ class ClientService implements clientsService {
       if (auth >= MANAGEMENT_ACCESS) {
         return await this.clientsRepository.getByfilters(filter);
       } else {
-        return false;
+        throw new AccessDenied('Forbidden');
       }
     } catch (error) {
       throw new Error('Client Service Unhandled');
@@ -67,7 +71,7 @@ class ClientService implements clientsService {
         const erased = await this.clientsRepository.remove(id);
         return erased;
       } else {
-        return false;
+        throw new AccessDenied('Forbidden');
       }
     } catch (error) {
       throw new Error('Client Service Unhandled');
@@ -86,7 +90,7 @@ class ClientService implements clientsService {
         await this.clientsRepository.create(client);
         return true;
       }
-      return false;
+      throw new AccessDenied('Forbidden');
     } catch (error) {
       throw new Error('Client Service Unhandled');
     }
@@ -96,11 +100,10 @@ class ClientService implements clientsService {
     try {
       const client = await this.clientsRepository.getByUserAndPassword(username, password);
       if (!client) {
-        return false;
+        throw new UndefinedUser('user not found');
       }
       return client.category;
     } catch (error) {
-      console.log(error);
       throw new Error('Client Service Unhandled');
     }
   }
@@ -112,7 +115,7 @@ class ClientService implements clientsService {
         const success = await this.clientsRepository.update('category', category, id);
         return success;
       } else {
-        return false;
+        throw new AccessDenied('Forbidden');
       }
     } catch (error) {
       throw new Error('Client Service Unhandled');

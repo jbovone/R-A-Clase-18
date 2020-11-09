@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import { css, jsx } from '@emotion/core';
 import Email from '../../../../components/forms/fields/email';
@@ -14,13 +14,6 @@ const StyliedForm = formStyle.withComponent(Form);
 const Signup = ({ onSubmit, data }) => {
   const [agree, setAgree] = useState(false);
   const { loading, error, user } = data;
-  console.log(user);
-  let usernameAsyncError;
-  let emailAsyncError;
-  try {
-    usernameAsyncError = error.username;
-    emailAsyncError = error.email;
-  } catch {}
 
   return (
     <Formik
@@ -37,9 +30,9 @@ const Signup = ({ onSubmit, data }) => {
       {({ errors, touched }) => (
         <StyliedForm>
           <h1>Create an Account:</h1>
-          <Username error={usernameAsyncError || errors.username} touched={touched.username} />
+          <Username error={error.username || errors.username} touched={touched.username} />
           <Password error={errors.password} touched={touched.password} />
-          <Email error={emailAsyncError || errors.email} touched={touched.email} />
+          <Email error={error.email || errors.email} touched={touched.email} />
           <TermsCheck setCheck={setAgree} check={agree} />
           <button disabled={!agree} className="btn button is-link">
             Submit

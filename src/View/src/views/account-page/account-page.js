@@ -5,7 +5,7 @@ import Signup from './controls/forms/register-form';
 import Login from './controls/forms/login-form';
 //import background from '../assets/streets.jpg';
 import { connect } from 'react-redux';
-import loginAction from '../../actions/loginAction';
+import loginAction from '../../actions/authActions';
 import registerAction from '../../actions/createUserAction';
 import structural from '../../constants/viewSkeleton';
 import FirstTime from './controls/checkboxes/is-first-time';
@@ -21,7 +21,6 @@ const lay = css({
 
 function LoginPage({ loginAction, registerAction, login, register }) {
   const [isFirstTime, setIsFirstTime] = useState(false);
-  console.log(isFirstTime);
   return (
     <main css={lay}>
       {isFirstTime ? (

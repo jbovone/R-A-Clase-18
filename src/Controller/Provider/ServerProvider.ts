@@ -14,7 +14,7 @@ class ServerProvider {
     this.service.use(automobile.base, automobile.manifesto());
     this.service.use(transactions.base, transactions.manifesto());
     this.service.use(view.base, view.manifesto());
-    this.service.listen(process.env.PORT || 4000, () => console.log('serving 4000'));
+    this.service.listen(process.env.PORT || 3000, () => console.log('serving 3000'));
   }
 }
 

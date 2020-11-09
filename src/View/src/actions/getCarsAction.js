@@ -18,7 +18,7 @@ export const getCarsReducer = (state = initialState, action) => {
       return { ...state, loading: true };
 
     case GET_CARS_SUCCESS:
-      return { ...state, loading: false, newCar: true };
+      return { ...state, loading: false, cars: action.payload };
 
     case GET_CARS_ERROR:
       return { ...state, loading: false, error: action.payload };
@@ -27,19 +27,17 @@ export const getCarsReducer = (state = initialState, action) => {
   }
 };
 
-const getCarsAction = formData => (state, dispatch) => {
+const getCarsAction = () => (state, dispatch) => {
   dispatch({
     type: GETTING_CARS,
   });
   axios
-    .post(GET_CARS, formData)
+    .get(GET_CARS)
     .then(response => {
-      if (response.ok) {
-        dispatch({
-          type: GET_CARS_SUCCESS,
-          payload: response.data.results,
-        });
-      }
+      dispatch({
+        type: GET_CARS_SUCCESS,
+        payload: response.data,
+      });
     })
     .catch(error => {
       let errMsg;

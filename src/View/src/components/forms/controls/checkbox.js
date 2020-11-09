@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 
 const Checkbox = styled.div`

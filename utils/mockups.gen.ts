@@ -1,7 +1,7 @@
 const data = require('faker');
 const colors = ['orange', 'red', 'blue', 'white', 'green', 'black'];
 
-function generateClient(restricted = false) {
+export function generateClient(restricted = false) {
   const person = {
     id: random(1000),
     category: random(4),
@@ -20,7 +20,7 @@ function generateClient(restricted = false) {
   return restricted ? { id, username, password, email } : person;
 }
 
-function generateCar() {
+export function generateCar() {
   const car = {
     id: data.vehicle.vin(),
     model: data.vehicle.model(),
@@ -34,7 +34,7 @@ function generateCar() {
   };
   return car;
 }
-function random(range) {
+export function random(range: number) {
   return Math.floor(Math.random() * range);
 }
 function isDraft(factor = 0.5) {

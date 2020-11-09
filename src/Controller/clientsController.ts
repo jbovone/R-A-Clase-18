@@ -4,6 +4,8 @@ import { Request, Response } from 'express-serve-static-core';
 import { isUserValid, isUsernameValid, isPasswordValid, isSearchValid } from '../Validation/validate';
 import UserConstraints from '../Exeptions/ValidationConstraints';
 import UserAccessOne from './DTOs/UserCatOne';
+import AccessDenied from '../Exeptions/AccessDenied';
+import UndefinedUser from '../Exeptions/UndefinedUser';
 
 export default class ClientController {
   provider;
@@ -38,7 +40,6 @@ export default class ClientController {
         response.status(202).send(new UserAccessOne(user));
       } catch (error) {
         if (error instanceof UserConstraints) {
-          console.log(error);
           return response.status(403).send(JSON.stringify(error));
         }
         response.sendStatus(500);
@@ -48,15 +49,15 @@ export default class ClientController {
     }
   }
 
-  async remove({ params, session }: Request, response: Response) {
-    const { id } = params;
-    const cat: number | undefined = session!.userCategory;
+  async getAll({ session }: Request, response: Response) {
+    const cat = session!.userCategory;
     if (!cat) return response.sendStatus(403);
 
     try {
-      const success = await this.service.remove(parseInt(id), cat);
-      success ? response.sendStatus(200) : response.sendStatus(404);
-    } catch {
+      const clients = await this.service.getAll(cat);
+      response.send(clients);
+    } catch (error) {
+      if (error instanceof AccessDenied) return response.sendStatus(403);
       response.sendStatus(500);
     }
   }
@@ -68,39 +69,54 @@ export default class ClientController {
 
     try {
       const client = await this.service.getById(parseInt(id), cat);
-      client ? response.send(client) : response.sendStatus(403);
+      response.send(client);
     } catch (error) {
+      if (error instanceof AccessDenied) return response.sendStatus(403);
       response.sendStatus(500);
     }
   }
 
-  async getAll({ session }: Request, response: Response) {
-    const cat = session!.userCategory;
-    //if (!cat) return response.sendStatus(403);
+  async getByfilters({ session, body }: Request, response: Response) {
+    const { filters } = body;
+    let cat = session!.userCategory;
+    if (!isSearchValid(filters) || !cat) response.sendStatus(400);
 
     try {
-      const clients = await this.service.getAll(cat);
-      clients ? response.send(clients) : response.sendStatus(403);
+      const items = await this.service.getByfilters(cat, filters);
+      response.send(items);
     } catch (error) {
+      if (error instanceof AccessDenied) return response.sendStatus(403);
+      response.sendStatus(500);
+    }
+  }
+
+  async remove({ params, session }: Request, response: Response) {
+    const { id } = params;
+    const cat: number | undefined = session!.userCategory;
+    if (!cat) return response.sendStatus(403);
+
+    try {
+      await this.service.remove(parseInt(id), cat);
+      response.sendStatus(200);
+    } catch (error) {
+      if (error instanceof AccessDenied) return response.sendStatus(403);
       response.sendStatus(500);
     }
   }
 
   async login({ body, session }: Request, response: Response) {
     const { username, password } = body;
-    console.log(body);
+
     const cat = session!.userCategory;
     if (cat) return response.sendStatus(403);
+
     if (isUsernameValid(username) && isPasswordValid(password)) {
-      console.log('PASSED VALIDATION');
       try {
-        const cat = await this.service.authorization(username, password);
-        if (cat) {
-          session!.userCategory = cat;
-          response.sendStatus(200);
-        }
-        response.sendStatus(404);
+        const category = await this.service.authorization(username, password);
+        session!.userCategory = category;
+        return response.sendStatus(202);
       } catch (error) {
+        if (error instanceof UndefinedUser) return response.sendStatus(403);
         response.sendStatus(500);
       }
     }
@@ -125,8 +141,8 @@ export default class ClientController {
     const cat = session!.userCategory;
     if (!cat) return response.sendStatus(403);
     try {
-      const clients = await this.service.getAll(cat);
-      clients ? response.send(clients) : response.sendStatus(403);
+      await this.service.completeRegistration(body, cat);
+      return response.sendStatus(200);
     } catch (error) {
       response.sendStatus(500);
     }
@@ -134,18 +150,6 @@ export default class ClientController {
 
   async emailVerify() {} //TODO
 
-  async getByfilters({ session, body }: Request, response: Response) {
-    const { filters } = body;
-    let cat = session!.userCategory;
-    if (!isSearchValid(filters) || !cat) response.sendStatus(400);
-
-    try {
-      const items = await this.service.getByfilters(cat, filters);
-      response.send(items);
-    } catch (error) {
-      response.sendStatus(500);
-    }
-  }
   async accessUpdate({ body, session }: Request, response: Response) {
     const { id, toCategory } = body;
     const auth = session!.userCategory;
@@ -154,7 +158,6 @@ export default class ClientController {
     if (parseInt(id) === NaN || parseInt(toCategory) === NaN) {
       return response.sendStatus(400);
     }
-
     try {
       await this.service.accessUpdate(Number(id), Number(toCategory), parseInt(auth));
     } catch (error) {

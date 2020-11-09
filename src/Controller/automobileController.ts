@@ -2,6 +2,8 @@
 import { Router } from 'express';
 import { automobileService, baseController } from '../../types';
 import { Request, Response } from 'express-serve-static-core';
+import { isAutomobileValid } from '../Validation/validate';
+import AccessDenied from '../Exeptions/AccessDenied';
 
 class AutomobileController implements baseController {
   provider;
@@ -23,15 +25,16 @@ class AutomobileController implements baseController {
   }
   async create({ body, session }: Request, response: Response) {
     const cat = session!.userCat;
-    if (cat) {
+    if (cat && isAutomobileValid(body)) {
       try {
         session!.userCat = await this.service.create(body);
         response.sendStatus(202);
-      } catch {
+      } catch (error) {
+        if (error instanceof AccessDenied) response.sendStatus(403);
         response.sendStatus(500);
       }
     } else {
-      response.sendStatus(404);
+      response.sendStatus(400);
     }
   }
 
@@ -60,10 +63,10 @@ class AutomobileController implements baseController {
     }
   }
   async getAll(_: Request, response: Response) {
-    console.error('TODO MARK');
     try {
       const automobiles = await this.service.getAll();
-      automobiles ? response.send(clients) : response.sendStatus(403);
+      console.log(automobiles, 'AUTOMOBILES');
+      automobiles ? response.send(automobiles) : response.sendStatus(403);
     } catch (error) {
       response.sendStatus(500);
     }

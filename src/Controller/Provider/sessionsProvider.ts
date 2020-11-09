@@ -14,7 +14,10 @@ class SessionSetup {
       secret: process.env.SESSION_SECRET!,
       resave: false,
       saveUninitialized: false,
-      cookie: { maxAge: this.ONE_WEEK_IN_SECONDS },
+      cookie: {
+        maxAge: this.ONE_WEEK_IN_SECONDS,
+        secure: false,
+      },
     };
   }
   generate() {

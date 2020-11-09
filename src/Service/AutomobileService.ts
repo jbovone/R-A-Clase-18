@@ -1,19 +1,35 @@
 //@ts-nocheck
 import Error from '../Exeptions/InternalRepository';
-import { isAutomobileValid } from '../Validation/validate';
-import { ID } from '../../types';
+import { automobile, category, ID } from '../../types';
+import AutomobileRepository from '../Repository/AutomobileRepository';
+import * as userTypes from '../Invariances/userCategories';
+import AccessDenied from '../Exeptions/AccessDenied';
 
 export default class AutomovileService {
   automobileRepository;
-  constructor(automobileRepository: any) {
+  constructor(automobileRepository: AutomobileRepository) {
     this.automobileRepository = automobileRepository;
   }
+
+  async create(car: automobile, cat: category) {
+    const { MANAGEMENT_ACCESS } = userTypes;
+    if (cat < MANAGEMENT_ACCESS) {
+      throw new AccessDenied('Forbidden');
+    }
+    try {
+      const automobile = await this.automobileRepository.create(car);
+      return automobile;
+    } catch (error) {
+      throw new Error('Unhandled at Automobile Service');
+    }
+  }
+
   async getAll() {
     try {
       const response = await this.automobileRepository.getAll();
       return response;
     } catch (error) {
-      return error;
+      throw new Error('Unhandled at Automobile Service');
     }
   }
 
@@ -22,40 +38,22 @@ export default class AutomovileService {
       const response = await this.automobileRepository.getById(Number(id));
       dispatch.send(response);
     } catch (error) {
-      dispatch.status(404).send(new Error(error));
+      throw new Error('Unhandled at Automobile Service');
     }
   }
 
-  async getByfilters(event: any, dispatch: Dispatch) {
-    const { filter } = event.params;
-    if (!filter) return dispatch.status(400).send(new Error('malformed request'));
-
+  async getByfilters(filter: string) {
     try {
-      const response = await this.automobileRepository.getByfilters(filter);
-      dispatch.send(response);
+      const search = await this.automobileRepository.getByfilters(filter);
+      return search;
     } catch (error) {
-      dispatch.status(404).send(new Error(error));
+      throw new Error('Unhandled at Automobile Service');
     }
   }
 
-  async create(event: any, dispatch: Dispatch) {
-    if (!isAutomobileValid(event)) {
-      return dispatch.status(400).send(new Error('malformed request'));
-    }
-
+  async remove(id: ID) {
     try {
-      const automobile = event.body;
-      const response = await this.automobileRepository.create(automobile);
-      dispatch.status(201).send(response);
-    } catch (error) {
-      dispatch.status(500).send(error);
-    }
-  }
-
-  async remove(event: any, dispatch: Dispatch) {
-    const { id } = event.params;
-    if (!id) return dispatch.status(400).send(new Error('malformed request'));
-    try {
+      this.automobileRepository.remove(id);
     } catch (error) {}
     console.log('aca estamos', id);
     dispatch.send('OK!');

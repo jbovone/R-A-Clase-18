@@ -1,10 +1,9 @@
-import { client, ICLient, ID, user } from '../../types';
+import { ICLient, ID, user } from '../../types';
 import ClientsModel from './model/ClientsModel';
 import { Op } from 'sequelize';
 import User from '../Entities/User';
 import { BuildOptions } from 'sequelize/types';
 import InternalRepository from '../Exeptions/InternalRepository';
-import { userValidation } from '../../types';
 import UserConstraints from '../Exeptions/ValidationConstraints';
 
 export default class ClientsRepository {
@@ -43,7 +42,7 @@ export default class ClientsRepository {
       });
       return clients;
     } catch (error) {
-      throw new Error('');
+      throw new InternalRepository(error);
     }
   }
 
@@ -54,7 +53,7 @@ export default class ClientsRepository {
       });
       return client;
     } catch (error) {
-      throw new Error('');
+      throw new InternalRepository(error);
     }
   }
 
@@ -83,7 +82,7 @@ export default class ClientsRepository {
       const deleted = await this.interface.destroy({ where: { id: id } });
       return Boolean(deleted);
     } catch (error) {
-      throw new Error('');
+      throw new InternalRepository(error);
     }
   }
 }

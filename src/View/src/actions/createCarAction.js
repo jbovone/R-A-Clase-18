@@ -34,7 +34,7 @@ const createCarAction = formData => (state, dispatch) => {
     .then(response => {
       dispatch({
         type: CREATE_CAR_SUCCESS,
-        payload: response.data.results,
+        payload: response.data,
       });
     })
     .catch(error => {

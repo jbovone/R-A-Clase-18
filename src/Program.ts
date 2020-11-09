@@ -6,7 +6,7 @@ import { Factory } from 'rsdi/definitions/FactoryDefinition';
 import ServerProvider from './Controller/Provider/ServerProvider';
 import { Router } from 'express';
 import Session from './Controller/Provider/sessionsProvider';
-
+import { setDBinitialState } from '../utils/DBInitialState';
 import ViewController from './Controller/ViewController';
 
 import AutomobileController from './Controller/AutomobileController';
@@ -21,10 +21,10 @@ import ClientsRepository from './Repository/ClientsRepository';
 import ClientsModel from './Repository/model/ClientsModel';
 import Client from './Entities/Client';
 
-import TransactionsController from './Controller/TransactionsController';
-import TransactionsService from './Service/TransactionService';
-import TransactionsRepository from './Repository/TransactionsRepository';
-import TransactionsModel from './Repository/model/TransactionsModel';
+import BookingsController from './Controller/BookingsController';
+import BookingsService from './Service/BookingsService';
+import BookingsRepository from './Repository/BookingsRepository';
+import BookingsModel from './Repository/model/BookingsModel';
 import Transaction from './Entities/Transaction';
 
 import addDatabaseDefinitions from './Repository/configuration/common';
@@ -37,7 +37,7 @@ const definitions = {
     get('Session'),
     get('ClientsController'),
     get('AutomobileController'),
-    get('TransactionsController'),
+    get('BookingsController'),
     get('ViewController')
   ),
 
@@ -53,31 +53,32 @@ const definitions = {
   ClientsController: object(ClientsController).construct(Router(), get('ClientsService')),
   ClientsService: object(ClientService).construct(get('ClientsRepository')),
   ClientsRepository: object(ClientsRepository).construct(get('ClientsModel')),
-  ClientsModel: factory(configureTransactionsModel as Factory),
+  ClientsModel: factory(configureClientsModel as Factory),
 
-  TransactionsController: object(TransactionsController).construct(Router(), get('TransactionService')),
-  TransactionService: object(TransactionsService).construct(get('TransactionsRepository')),
-  TransactionsRepository: object(TransactionsRepository).construct(get('TransactionsModel')),
-  TransactionsModel: factory(configureClientsModel as Factory),
+  BookingsController: object(BookingsController).construct(Router(), get('BookingService')),
+  BookingService: object(BookingsService).construct(get('BookingsRepository')),
+  BookingsRepository: object(BookingsRepository).construct(get('BookingsModel')),
+  BookingsModel: factory(configureBookingsModel as Factory),
 };
 
 function configureAutomobilesModel(container: DIContainer) {
   return AutomobilesModel.setup(container.get('MainDB'));
 }
-function configureTransactionsModel(container: DIContainer) {
+function configureClientsModel(container: DIContainer) {
   return ClientsModel.setup(container.get('MainDB'));
 }
-function configureClientsModel(container: DIContainer) {
-  return TransactionsModel.setup(container.get('MainDB'));
+function configureBookingsModel(container: DIContainer) {
+  return BookingsModel.setup(container.get('MainDB'));
 }
 
 (async () => {
   try {
     addDatabaseDefinitions(program);
     program.addDefinitions(definitions);
-    program.get<Sequelize>('MainDB').sync();
-    program.get<Sequelize>('SessionDB').sync();
+    await program.get<Sequelize>('MainDB').sync();
+    await program.get<Sequelize>('SessionDB').sync();
     program.get('Server');
+    process.env.node_env === 'development' && setDBinitialState(program);
   } catch (error) {
     console.log(error);
   }

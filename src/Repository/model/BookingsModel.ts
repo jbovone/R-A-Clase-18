@@ -1,8 +1,8 @@
 import Sequelize, { Model, DataTypes } from 'sequelize';
 
-class TransactionsModel extends Model {
+class BookingsModel extends Model {
   static setup(sequelizeInstance: Sequelize.Sequelize) {
-    TransactionsModel.init(
+    BookingsModel.init(
       {
         id: {
           type: DataTypes.INTEGER,
@@ -33,9 +33,6 @@ class TransactionsModel extends Model {
         totalPrice: {
           type: DataTypes.INTEGER,
         },
-        fkAlive: {
-          type: DataTypes.BOOLEAN,
-        },
         lastUpdated: {
           type: DataTypes.DATE,
           defaultValue: Sequelize.NOW,
@@ -47,16 +44,16 @@ class TransactionsModel extends Model {
       },
       {
         sequelize: sequelizeInstance,
-        modelName: 'Transactions',
+        modelName: 'Bookings',
         timestamps: false,
       }
     );
-    return TransactionsModel;
+    return BookingsModel;
   }
   static setupAssociations(ClientsModel: any, AutomovileModel: any) {
-    TransactionsModel.belongsTo(ClientsModel, { foreignKey: 'id' });
-    TransactionsModel.belongsTo(AutomovileModel, { foreignKey: 'id' });
+    BookingsModel.belongsTo(ClientsModel, { foreignKey: 'id' });
+    BookingsModel.belongsTo(AutomovileModel, { foreignKey: 'id' });
   }
 }
 
-export default TransactionsModel;
+export default BookingsModel;

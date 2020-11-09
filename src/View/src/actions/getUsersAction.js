@@ -34,12 +34,10 @@ const usersAction = formData => (dispatch, getState) => {
   axios
     .post(GET_USERS, formData)
     .then(response => {
-      if (response.ok) {
-        dispatch({
-          type: GET_USERS_SUCCESS,
-          payload: response.data.results,
-        });
-      }
+      dispatch({
+        type: GET_USERS_SUCCESS,
+        payload: response.data,
+      });
     })
     .catch(error => {
       let errMsg;

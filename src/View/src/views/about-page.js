@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import React from 'react';
 import { css, jsx } from '@emotion/core';
-//import background from '../assets/streets.jpg';
 import { FaCheck } from 'react-icons/fa';
 import structural from '../constants/viewSkeleton';
 
@@ -26,8 +25,6 @@ const lay = css({
       },
     },
   },
-  //background: `url("${background}") no-repeat`,
-  backgroundSize: 'contain',
 });
 
 function LandingPage() {

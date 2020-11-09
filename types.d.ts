@@ -47,7 +47,7 @@ interface client extends user {
   category: category;
 }
 
-interface transaction {
+interface booking {
   id: string;
   userId: string;
   carId: string;
@@ -55,8 +55,7 @@ interface transaction {
   fromTime: string;
   toTime: string;
   paid: number;
-  totalPrice: number;
-  alive: boolean;
+  priceDay: number;
 }
 
 interface baseController {
@@ -73,14 +72,14 @@ interface baseService {
 
 interface automobileService extends baseService {
   automobileRepository: repository;
-  create: (user: user) => boolean;
-  getById: (id: ID) => automobile;
-  getAll: () => user[] | automobile[];
-  getByfilters: (params: string) => automobile[];
-  updateCar: (autmobile: automobile) => boolean;
+  create: (automobile: automobile) => Promise<automobile>;
+  getById: (id: ID) => Promise<automobile>;
+  getAll: () => Promise<automobile[]>;
+  getByfilters: (params: string) => Promise<automobile[]>;
+  updateCar: (autmobile: automobile) => Promise<boolean>;
 }
 
-interface transactionsService extends baseService {
+interface bookingsService extends baseService {
   transactionsRepository: repository;
   create: (user: transaction) => boolean;
   getById: (id: ID) => transaction;

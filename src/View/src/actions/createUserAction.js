@@ -5,7 +5,10 @@ import axios from 'axios';
 const initialState = {
   loading: false,
   user: null,
-  error: null,
+  error: {
+    username: null,
+    email: null,
+  },
 };
 
 const POSTING_USER = 'POSTING_USER';
@@ -19,7 +22,7 @@ export const createUserReducer = (state = initialState, action) => {
     case CREATE_USER_ERROR:
       return { ...state, loading: false, error: action.payload };
     case CREATE_USER_SUCCESS:
-      return { ...state, loading: false, user: action.payload };
+      return { ...state, loading: false, error: initialState.error, user: action.payload };
     default:
       return { ...state };
   }
@@ -30,7 +33,6 @@ const createUserAction = formData => dispatch => {
   axios
     .post(CREATE_USER, formData)
     .then(response => {
-      console.log(response.data);
       dispatch({
         type: CREATE_USER_SUCCESS,
         payload: response.data,

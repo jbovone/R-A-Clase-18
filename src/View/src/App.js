@@ -1,14 +1,15 @@
 import React from 'react';
 import About from './views/about-page';
-import Header from './components/header';
+import Header from './components/header/header';
 import Nav from './components/nav';
-import styled from '@emotion/styled';
-import Bookings from './components/forms/bookings/bookings-form';
 import { Route } from 'react-router-dom';
+import Bookings from './views/bookings-page/bookings-page';
 import Home from './views/home-page';
 import Login from './views/account-page/account-page';
 
 function main() {
+  const cookie = document.cookie;
+  console.log(cookie, 'COOKIE');
   return (
     <main>
       <Header />
