@@ -1,4 +1,4 @@
-import { ICLient, ID, user } from '../../types';
+import { ID, user, client, ICLient } from '../../types';
 import ClientsModel from './model/ClientsModel';
 import { Op } from 'sequelize';
 import User from '../Entities/User';
@@ -73,8 +73,12 @@ export default class ClientsRepository {
     }
   }
 
-  async update(item: ICLient, data: any, where: ID) {
-    await this.interface.update({ [item]: data }, { where: where as any });
+  async update(client: client) {
+    const clientKeys = Object.keys(client);
+    for (let i = 0; i < clientKeys.length; i++) {
+      // @ts-ignore
+      await this.interface.update({ [clientKeys[i]]: client[clientKeys[i]] }, { where: client.id });
+    }
   }
 
   async remove(id: string) {

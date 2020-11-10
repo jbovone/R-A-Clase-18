@@ -1,12 +1,6 @@
 import { client } from '../../types';
 import User from './User'
 
-
-
-/**
- *  Client.
- */
-
 class Client extends User {
   firstName: string;
   lastName: string;

@@ -117,7 +117,7 @@ export default class ClientController {
         return response.sendStatus(202);
       } catch (error) {
         if (error instanceof UndefinedUser) return response.sendStatus(403);
-        response.sendStatus(500);
+        return response.sendStatus(500);
       }
     }
     response.sendStatus(406);

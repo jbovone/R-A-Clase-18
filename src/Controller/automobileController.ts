@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Router } from 'express';
 import { automobileService, baseController } from '../../types';
 import { Request, Response } from 'express-serve-static-core';
@@ -56,7 +55,7 @@ class AutomobileController implements baseController {
     if (!cat) return response.sendStatus(403);
 
     try {
-      const success = await this.service.getById(parseInt(id), cat);
+      const success = await this.service.getById(parseInt(id));
       success ? response.sendStatus(200) : response.sendStatus(404);
     } catch {
       response.sendStatus(500);
@@ -65,12 +64,12 @@ class AutomobileController implements baseController {
   async getAll(_: Request, response: Response) {
     try {
       const automobiles = await this.service.getAll();
-      console.log(automobiles, 'AUTOMOBILES');
-      automobiles ? response.send(automobiles) : response.sendStatus(403);
+      response.send(automobiles);
     } catch (error) {
       response.sendStatus(500);
     }
   }
+  /**we dont hav use cases for this ones yet */
   async getByfilters({ body, session }: Request, response: Response) {}
   async updateCar({ body, session }: Request, response: Response) {}
 }

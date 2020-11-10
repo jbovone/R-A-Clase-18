@@ -6,8 +6,9 @@ import { Factory } from 'rsdi/definitions/FactoryDefinition';
 import ServerProvider from './Controller/Provider/ServerProvider';
 import { Router } from 'express';
 import Session from './Controller/Provider/sessionsProvider';
-import { setDBinitialState } from '../utils/DBInitialState';
+import { populateDatabase } from '../utils/DBInitialState';
 import ViewController from './Controller/ViewController';
+import createAdmin from './Repository/configuration/createAdmin';
 
 import AutomobileController from './Controller/AutomobileController';
 import AutomobileService from './Service/AutomobileService';
@@ -75,10 +76,15 @@ function configureBookingsModel(container: DIContainer) {
   try {
     addDatabaseDefinitions(program);
     program.addDefinitions(definitions);
-    await program.get<Sequelize>('MainDB').sync();
-    await program.get<Sequelize>('SessionDB').sync();
+    program
+      .get<Sequelize>('MainDB')
+      .sync()
+      .then(() => {
+        createAdmin(program);
+        process.env.node_env === 'development' && populateDatabase(program);
+      });
+    program.get<Sequelize>('SessionDB').sync();
     program.get('Server');
-    process.env.node_env === 'development' && setDBinitialState(program);
   } catch (error) {
     console.log(error);
   }

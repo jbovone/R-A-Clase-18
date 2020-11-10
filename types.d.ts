@@ -30,12 +30,11 @@ interface user {
   id?: number;
   username: string;
   email: string;
-  emailVerified: boolean;
   password: string;
   category: category;
 }
 
-interface client extends user {
+interface client {
   id: number;
   firstName: string;
   lastName: string;
@@ -90,13 +89,13 @@ interface bookingsService extends baseService {
 interface clientsService extends baseService {
   clientsRepository: clientsRepository;
   create: (user: user) => Promise<user | userValidation>;
-  getById: (id: ID, auth: category) => Promise<user | false>;
+  getById: (id: ID, auth: category) => Promise<user | client>;
   getByfilters(filter: string, auth: category): any;
-  getAll: (cat: category) => Promise<user[] | false>;
+  getAll: (cat: category) => Promise<user[] | client[]>;
   authorization: (username: string, password: string) => Promise<category | false>;
   emailVerify: (id: ID, code: string) => Promise<boolean>;
   completeRegistration: (client: client, category: category) => Promise<boolean>;
-  accessUpdate: (id: ID, category: Number, auth: Number) => Promise<boolean>;
+  accessUpdate: (id: ID, category: category, auth: category) => Promise<boolean>;
 }
 
 interface clientsRepository {
@@ -106,7 +105,7 @@ interface clientsRepository {
   getByfilters(filter: string): Promise<user[] | client[] | boolean>;
   create(item: user): Promise<user | userValidation>;
   remove(item: number): Promise<boolean>;
-  update(item: ICLient, data: any, where: ID): Promise<boolean>;
+  update(client: client): Promise<boolean>;
 }
 
 type userValidation = ['username'?, 'email'?];

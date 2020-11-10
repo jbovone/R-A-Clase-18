@@ -87,7 +87,7 @@ class ClientService implements clientsService {
     const { USERS_ACCESS } = userTypes;
     try {
       if (category === USERS_ACCESS) {
-        await this.clientsRepository.create(client);
+        await this.clientsRepository.update(client);
         return true;
       }
       throw new AccessDenied('Forbidden');
@@ -104,15 +104,16 @@ class ClientService implements clientsService {
       }
       return client.category;
     } catch (error) {
+      if (error instanceof UndefinedUser) throw error;
       throw new Error('Client Service Unhandled');
     }
   }
 
-  async accessUpdate(id: ID, category: Number, auth: Number) {
+  async accessUpdate(id: ID, category: category, auth: category) {
     const { ADMINISTRATIVE_ACCESS } = userTypes;
     try {
       if (auth === ADMINISTRATIVE_ACCESS) {
-        const success = await this.clientsRepository.update('category', category, id);
+        const success = await this.clientsRepository.update({ category, id } as client);
         return success;
       } else {
         throw new AccessDenied('Forbidden');

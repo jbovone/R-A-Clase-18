@@ -1,4 +1,3 @@
-//@ts-nocheck
 import Error from '../Exeptions/InternalRepository';
 import { automobile, category, ID } from '../../types';
 import AutomobileRepository from '../Repository/AutomobileRepository';
@@ -36,7 +35,7 @@ export default class AutomovileService {
   async getById(id: ID) {
     try {
       const response = await this.automobileRepository.getById(Number(id));
-      dispatch.send(response);
+      return response;
     } catch (error) {
       throw new Error('Unhandled at Automobile Service');
     }
@@ -51,16 +50,16 @@ export default class AutomovileService {
     }
   }
 
-  async remove(id: ID) {
+  async remove(id: ID, cat: category) {
+    const { MANAGEMENT_ACCESS } = userTypes;
+    if (cat < MANAGEMENT_ACCESS) return new AccessDenied('forbidden');
+
     try {
       this.automobileRepository.remove(id);
-    } catch (error) {}
-    console.log('aca estamos', id);
-    dispatch.send('OK!');
-    return 'erased' + id;
+    } catch (error) {
+      throw new Error('Unhandled at Automobile Service');
+    }
   }
 
-  async updateCar(event: any, dispatch: Dispatch) {
-    const { id } = event.params;
-  }
+  async updateCar() {}
 }

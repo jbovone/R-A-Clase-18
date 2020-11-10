@@ -1,28 +1,32 @@
 const data = require('faker');
 const colors = ['orange', 'red', 'blue', 'white', 'green', 'black'];
 
-export function generateClient(restricted = false) {
-  const person = {
-    id: random(1000),
+export function generateUser() {
+  const user = {
     category: random(4),
+    username: data.internet.userName(),
+    password: data.internet.password(random(13), true),
+    email: data.internet.email(),
+  };
+  return user;
+}
+
+export function generateClient(category = 1) {
+  const client = {
     firstName: data.name.firstName(),
     lastName: data.name.lastName(),
     address: data.address.direction(),
     documentType: 'DNI',
     documentNumber: data.random.number({ max: 99999999 }),
     telephone: data.random.number({ max: 999999999 }),
-    username: data.internet.userName(),
-    password: data.internet.password(random(13), true),
     bornDate: data.date.past(70),
-    email: data.internet.email(),
+    category: category,
   };
-  const { id, username, password, email } = person;
-  return restricted ? { id, username, password, email } : person;
+  return client;
 }
 
 export function generateCar() {
   const car = {
-    id: data.vehicle.vin(),
     model: data.vehicle.model(),
     brand: data.vehicle.manufacturer(),
     year: data.date.past(15),
@@ -34,8 +38,8 @@ export function generateCar() {
   };
   return car;
 }
-export function random(range: number) {
-  return Math.floor(Math.random() * range);
+export function random(range: number, offset: number = 0) {
+  return Math.floor(Math.random() * range + offset);
 }
 function isDraft(factor = 0.5) {
   return Math.random() > factor;
@@ -53,5 +57,3 @@ function setStatus() {
 //console.log(generateClient());
 //console.log(generateCar());
 //yarn gen
-
-module.exports = { generateClient, generateCar };
