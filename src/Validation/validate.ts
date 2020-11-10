@@ -1,3 +1,5 @@
+import { PASSWORD_MAX, PASSWORD_MIN, USERNAME_MAX, USERNAME_MIN } from '../Invariances/validation';
+
 export function isAutomobileValid(automobile: any) {
   const { brand, model, year, miles, color, passengers, gears, status } = automobile;
   if (typeof automobile !== 'object') return false;
@@ -33,12 +35,17 @@ export function isEmailValid(email: any) {
 
 export function isUsernameValid(username: any) {
   return Boolean(
-    typeof username === 'string' && username.length >= 6 && username.length <= 12 && /\w/g.test(username)
+    typeof username === 'string' &&
+      username.length >= USERNAME_MIN &&
+      username.length <= USERNAME_MAX &&
+      /\w/g.test(username)
   );
 }
 
 export function isPasswordValid(password: any) {
-  return Boolean(typeof password === 'string' && password.length >= 8 && password.length <= 15);
+  return Boolean(
+    typeof password === 'string' && password.length >= PASSWORD_MIN && password.length <= PASSWORD_MAX
+  );
 }
 
 export function isClientValid(item: any) {

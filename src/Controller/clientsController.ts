@@ -106,13 +106,12 @@ export default class ClientController {
 
   async login({ body, session }: Request, response: Response) {
     const { username, password } = body;
-
     const cat = session!.userCategory;
     if (cat) return response.sendStatus(403);
-
     if (isUsernameValid(username) && isPasswordValid(password)) {
       try {
         const category = await this.service.authorization(username, password);
+        console.log(category);
         session!.userCategory = category;
         return response.sendStatus(202);
       } catch (error) {

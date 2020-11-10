@@ -1,13 +1,21 @@
 const data = require('faker');
+import { PASSWORD_MAX, PASSWORD_MIN, USERNAME_MAX, USERNAME_MIN } from '../src/Invariances/validation';
+
 const colors = ['orange', 'red', 'blue', 'white', 'green', 'black'];
 
 export function generateUser() {
   const user = {
     category: random(4),
     username: data.internet.userName(),
-    password: data.internet.password(random(13), true),
+    password: data.internet.password(random(PASSWORD_MAX - PASSWORD_MIN, PASSWORD_MIN), true),
     email: data.internet.email(),
   };
+  while (user.username.length < USERNAME_MIN) {
+    user.username = user.username + random(10);
+  }
+  while (user.username.length > USERNAME_MAX) {
+    user.username = user.username.substring(0, user.username.length - 1);
+  }
   return user;
 }
 
@@ -38,7 +46,7 @@ export function generateCar() {
   };
   return car;
 }
-export function random(range: number, offset: number = 0) {
+export function random(range: number, offset = 0) {
   return Math.floor(Math.random() * range + offset);
 }
 function isDraft(factor = 0.5) {
