@@ -1,4 +1,4 @@
-import { PASSWORD_MAX, PASSWORD_MIN, USERNAME_MAX, USERNAME_MIN } from '../Invariances/validation';
+import { PASSWORD_MAX, PASSWORD_MIN, USERNAME_MAX, USERNAME_MIN } from '../View/src/constants/validation';
 
 export function isAutomobileValid(automobile: any) {
   const { brand, model, year, miles, color, passengers, gears, status } = automobile;

@@ -7,6 +7,7 @@ import driver from '../../assets/driver 03.jpg';
 import HeaderDropDownButton from './HeaderDropDownButton';
 import HeaderDropdownMenu from './HeaderDropdownmenu';
 import { logoutAction } from '../../actions/authActions';
+import PropTypes from 'prop-types';
 
 const StyledHeader = styled.header({
   height: '20vh',
@@ -32,17 +33,35 @@ const StyledHeader = styled.header({
   },
 });
 
-function Header({ login, logoutAction }) {
+function Header({ loginState, logoutAction }) {
+  const { login, error, user } = loginState;
+
+  console.log(loginState, 'login');
   const [show, setShow] = useState(false);
   return (
     <StyledHeader>
       <Logo />
       <div className={show ? 'dropdown is-active' : 'dropdown'} onClickCapture={() => setShow(!show)}>
-        <HeaderDropDownButton />
-        <HeaderDropdownMenu setShow={setShow} login={login.login} logout={logoutAction} />
+        <HeaderDropDownButton user={user} />
+        <HeaderDropdownMenu setShow={setShow} login={login} logout={logoutAction} />
       </div>
     </StyledHeader>
   );
 }
-const mapStateToProps = state => ({ login: state.login });
+const mapStateToProps = state => ({ loginState: state.login });
 export default connect(mapStateToProps, { logoutAction })(Header);
+
+Header.propTypes = {
+  loginState: PropTypes.shape({
+    login: PropTypes.bool,
+    error: PropTypes.oneOfType([PropTypes.string, false]),
+    user: PropTypes.oneOfType(
+      PropTypes.shape({
+        username: PropTypes.string,
+        category: PropTypes.number,
+      }),
+      null
+    ),
+  }),
+  logoutAction: PropTypes.func.isRequired,
+};

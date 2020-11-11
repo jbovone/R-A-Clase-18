@@ -102,7 +102,7 @@ class ClientService implements clientsService {
       if (!client) {
         throw new UndefinedUser('user not found');
       }
-      return client.category;
+      return client;
     } catch (error) {
       if (error instanceof UndefinedUser) throw error;
       throw new Error('Client Service Unhandled');

@@ -7,6 +7,7 @@ import Username from '../../../../components/forms/fields/username';
 import Password from '../../../../components/forms/fields/password';
 import { SignupSchema } from '../../../../configuration/yupValidation';
 import TermsCheck from '../checkboxes/terms-agree';
+import Loading from '../../../../components/loading';
 import { formStyle } from './style';
 
 const StyliedForm = formStyle.withComponent(Form);
@@ -37,7 +38,7 @@ const Signup = ({ onSubmit, data }) => {
           <button disabled={!agree} className="btn button is-link">
             Submit
           </button>
-          {loading && <progress className="progress is-small is-primary" max="100" />}
+          {loading && <Loading />}
         </StyliedForm>
       )}
     </Formik>

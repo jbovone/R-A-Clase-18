@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { PASSWORD_MAX, PASSWORD_MIN, USERNAME_MAX, USERNAME_MIN } from '../../../Invariances/validation';
+import { PASSWORD_MAX, PASSWORD_MIN, USERNAME_MAX, USERNAME_MIN } from '../constants/validation';
 
 export const SignupSchema = Yup.object().shape({
   username: Yup.string()

@@ -3,7 +3,7 @@ import { clientsService } from '../../types';
 import { Request, Response } from 'express-serve-static-core';
 import { isUserValid, isUsernameValid, isPasswordValid, isSearchValid } from '../Validation/validate';
 import UserConstraints from '../Exeptions/ValidationConstraints';
-import UserAccessOne from './DTOs/UserCatOne';
+import LoginData from './DTOs/LoginSuccess';
 import AccessDenied from '../Exeptions/AccessDenied';
 import UndefinedUser from '../Exeptions/UndefinedUser';
 
@@ -31,13 +31,14 @@ export default class ClientController {
   }
 
   async create({ body, session }: Request, response: Response) {
-    const cat: number | undefined = session!.userCategory;
+    const cat: number | undefined = session!.user.category;
     if (cat) return response.sendStatus(403);
 
     if (isUserValid(body)) {
       try {
         const user = await this.service.create(body);
-        response.status(202).send(new UserAccessOne(user));
+        session!.user = new LoginData(user);
+        response.status(202).send(new LoginData(user));
       } catch (error) {
         if (error instanceof UserConstraints) {
           return response.status(403).send(JSON.stringify(error));
@@ -50,7 +51,7 @@ export default class ClientController {
   }
 
   async getAll({ session }: Request, response: Response) {
-    const cat = session!.userCategory;
+    const cat = session!.user.category;
     if (!cat) return response.sendStatus(403);
 
     try {
@@ -64,7 +65,7 @@ export default class ClientController {
 
   async getById({ params, session }: Request, response: Response) {
     const { id } = params;
-    const cat: number | undefined = session!.userCategory;
+    const cat: number | undefined = session!.user.category;
     if (!cat) return response.sendStatus(403);
 
     try {
@@ -78,7 +79,7 @@ export default class ClientController {
 
   async getByfilters({ session, body }: Request, response: Response) {
     const { filters } = body;
-    let cat = session!.userCategory;
+    let cat = session!.user.category;
     if (!isSearchValid(filters) || !cat) response.sendStatus(400);
 
     try {
@@ -92,7 +93,7 @@ export default class ClientController {
 
   async remove({ params, session }: Request, response: Response) {
     const { id } = params;
-    const cat: number | undefined = session!.userCategory;
+    const cat: number | undefined = session!.user.category;
     if (!cat) return response.sendStatus(403);
 
     try {
@@ -106,14 +107,14 @@ export default class ClientController {
 
   async login({ body, session }: Request, response: Response) {
     const { username, password } = body;
-    const cat = session!.userCategory;
-    if (cat) return response.sendStatus(403);
+    if (session!.user) {
+      return response.status(202).send(new LoginData(session!.user));
+    }
     if (isUsernameValid(username) && isPasswordValid(password)) {
       try {
-        const category = await this.service.authorization(username, password);
-        console.log(category);
-        session!.userCategory = category;
-        return response.sendStatus(202);
+        const user = await this.service.authorization(username, password);
+        session!.user = new LoginData(user);
+        return response.status(202).send(new LoginData(user));
       } catch (error) {
         if (error instanceof UndefinedUser) return response.sendStatus(403);
         return response.sendStatus(500);
@@ -124,7 +125,7 @@ export default class ClientController {
 
   async logout({ session }: Request, response: Response) {
     try {
-      if (session!.userCategory) {
+      if (session!.user.category) {
         session?.destroy(error => {
           throw new Error(error);
         });
@@ -137,7 +138,7 @@ export default class ClientController {
   }
 
   async completeRegistration({ body, session }: Request, response: Response) {
-    const cat = session!.userCategory;
+    const cat = session!.user.category;
     if (!cat) return response.sendStatus(403);
     try {
       await this.service.completeRegistration(body, cat);
@@ -151,7 +152,7 @@ export default class ClientController {
 
   async accessUpdate({ body, session }: Request, response: Response) {
     const { id, toCategory } = body;
-    const auth = session!.userCategory;
+    const auth = session!.user.category;
     if (!auth) return response.sendStatus(403);
 
     if (parseInt(id) === NaN || parseInt(toCategory) === NaN) {

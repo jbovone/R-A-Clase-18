@@ -88,11 +88,11 @@ interface bookingsService extends baseService {
 
 interface clientsService extends baseService {
   clientsRepository: clientsRepository;
-  create: (user: user) => Promise<user | userValidation>;
+  create: (user: user) => Promise<user>;
   getById: (id: ID, auth: category) => Promise<user | client>;
   getByfilters(filter: string, auth: category): any;
   getAll: (cat: category) => Promise<user[] | client[]>;
-  authorization: (username: string, password: string) => Promise<category | false>;
+  authorization: (username: string, password: string) => Promise<user>;
   emailVerify: (id: ID, code: string) => Promise<boolean>;
   completeRegistration: (client: client, category: category) => Promise<boolean>;
   accessUpdate: (id: ID, category: category, auth: category) => Promise<boolean>;
@@ -103,7 +103,7 @@ interface clientsRepository {
   getAll(): Promise<user[] | client[]>;
   getById(id: ID): Promise<user | client>;
   getByfilters(filter: string): Promise<user[] | client[] | boolean>;
-  create(item: user): Promise<user | userValidation>;
+  create(item: user): Promise<user>;
   remove(item: number): Promise<boolean>;
   update(client: client): Promise<boolean>;
 }

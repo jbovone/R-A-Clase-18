@@ -1,5 +1,5 @@
 const data = require('faker');
-import { PASSWORD_MAX, PASSWORD_MIN, USERNAME_MAX, USERNAME_MIN } from '../src/Invariances/validation';
+import { PASSWORD_MAX, PASSWORD_MIN, USERNAME_MAX, USERNAME_MIN } from '../src/View/src/constants/validation';
 
 const colors = ['orange', 'red', 'blue', 'white', 'green', 'black'];
 

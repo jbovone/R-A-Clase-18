@@ -6,3 +6,4 @@ export const CREATE_CAR = BASE + 'automobile/new';
 export const CREATE_USER = BASE + 'clients/new';
 export const GET_USERS = BASE + 'clients/all';
 export const GET_CARS = BASE + 'automobile/all';
+export const GET_BY_ID = id => BASE + `clients/${id}`;
