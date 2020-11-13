@@ -22,14 +22,7 @@ const StyledDropdownButton = styled.div({
 });
 
 function DropDownButton({ user }) {
-  const initialState = 'Account';
-
-  const [logged, setLogged] = useState(initialState);
-  useEffect(() => {
-    return () => {
-      user ? setLogged(user.username) : setLogged(initialState);
-    };
-  }, [user]);
+  console.log(user, 'USER');
 
   return (
     <StyledDropdownButton className="dropdown-trigger">
@@ -38,7 +31,7 @@ function DropDownButton({ user }) {
           <FaUser />
           <FaAngleDown />
         </div>
-        <div>{logged}</div>
+        <div>{user ? user : 'Account'}</div>
       </button>
     </StyledDropdownButton>
   );

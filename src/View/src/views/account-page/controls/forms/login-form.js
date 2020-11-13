@@ -9,7 +9,7 @@ import { formStyle } from './style';
 const StyliedForm = formStyle.withComponent(Form);
 
 const Signup = ({ onSubmit, data }) => {
-  const { loading, user, error } = data;
+  const { loading, error } = data;
   return (
     <Formik
       initialValues={{

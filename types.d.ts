@@ -89,7 +89,7 @@ interface bookingsService extends baseService {
 interface clientsService extends baseService {
   clientsRepository: clientsRepository;
   create: (user: user) => Promise<user>;
-  getById: (id: ID, auth: category) => Promise<user | client>;
+  getById: (id: ID, auth: category, sessionID: ID) => Promise<user | client>;
   getByfilters(filter: string, auth: category): any;
   getAll: (cat: category) => Promise<user[] | client[]>;
   authorization: (username: string, password: string) => Promise<user>;

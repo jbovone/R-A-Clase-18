@@ -9,6 +9,7 @@ import loginAction from '../../actions/authActions';
 import registerAction from '../../actions/createUserAction';
 import structural from '../../constants/viewSkeleton';
 import FirstTime from './controls/checkboxes/is-first-time';
+import { Redirect } from 'react-router-dom';
 
 const lay = css({
   ...structural,
@@ -29,6 +30,8 @@ function LoginPage({ loginAction, registerAction, login, register }) {
         <Login onSubmit={loginAction} data={login} />
       )}
       <FirstTime setCheck={setIsFirstTime} check={isFirstTime} />
+      {login.user && <span className="help is-success">Welcome {login.user.username}</span>}
+      {login.user && <Redirect to="/bookings" />}
     </main>
   );
 }

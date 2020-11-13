@@ -1,7 +1,7 @@
 import React from 'react';
 import style from '@emotion/styled';
-import Table from '../components/table';
-import * as profiles from '../configuration/tableprofiles';
+import Table from '../../components/table';
+import * as profiles from '../../configuration/tableprofiles';
 import { NavLink } from 'react-router-dom';
 
 const style = css({

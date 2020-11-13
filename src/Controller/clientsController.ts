@@ -56,7 +56,7 @@ export default class ClientController {
 
     try {
       const clients = await this.service.getAll(cat);
-      response.send(clients);
+      return response.send(clients);
     } catch (error) {
       if (error instanceof AccessDenied) return response.sendStatus(403);
       response.sendStatus(500);
@@ -67,10 +67,9 @@ export default class ClientController {
     const { id } = params;
     const cat: number | undefined = session!.user.category;
     if (!cat) return response.sendStatus(403);
-
     try {
-      const client = await this.service.getById(parseInt(id), cat);
-      response.send(client);
+      const client = await this.service.getById(parseInt(id), cat, session!.user.id);
+      return response.status(200).send(client);
     } catch (error) {
       if (error instanceof AccessDenied) return response.sendStatus(403);
       response.sendStatus(500);
@@ -124,17 +123,10 @@ export default class ClientController {
   }
 
   async logout({ session }: Request, response: Response) {
-    try {
-      if (session!.user.category) {
-        session?.destroy(error => {
-          throw new Error(error);
-        });
-        response.sendStatus(200);
-      }
-      response.sendStatus(400);
-    } catch (error) {
-      response.sendStatus(500);
+    if (session!.user) {
+      return session!.destroy(_ => response.sendStatus(200));
     }
+    response.sendStatus(400);
   }
 
   async completeRegistration({ body, session }: Request, response: Response) {

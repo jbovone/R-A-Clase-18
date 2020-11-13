@@ -6,13 +6,12 @@ const LOGIN_LOADING = 'LOGIN_LOADING';
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const LOGIN_ERROR = 'LOGIN_ERROR';
 const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-const LOGOUT_ERROR = 'LOGOUT_ERROR';
 
 const initialState = {
   loading: false,
   login: false,
-  error: false,
-  user: null,
+  error: null,
+  user: {},
 };
 
 export const loginReducer = (state = initialState, action) => {
@@ -27,10 +26,7 @@ export const loginReducer = (state = initialState, action) => {
       return { ...state, loading: false, error: action.payload };
 
     case LOGOUT_SUCCESS:
-      return { ...state, loading: false, login: false, error: false };
-
-    case LOGOUT_ERROR:
-      return { ...state, loading: false, login: false, error: false };
+      return { ...initialState };
 
     default:
       return { ...state };

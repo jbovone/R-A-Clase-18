@@ -27,7 +27,7 @@ export const getCarsReducer = (state = initialState, action) => {
   }
 };
 
-const getCarsAction = () => (state, dispatch) => {
+const getCarsAction = () => (dispatch, state) => {
   dispatch({
     type: GETTING_CARS,
   });

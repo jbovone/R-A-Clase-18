@@ -4,32 +4,19 @@ import { bookingsService } from '../../types';
 class BookingsService implements bookingsService {
   constructor() {}
 
-  create(event: any, dispatch: any) {
-    const user = event.body;
-  }
+  create() {}
 
-  getAll(_: any, dispatch: any) {}
+  getAll() {}
 
-  getById(event: any, dispatch: any) {
-    const { id } = event.params;
-  }
+  getById() {}
 
-  getByfilters(event: any, dispatch: any) {
-    const { filter } = event.params;
-  }
+  getByfilters() {}
 
-  update(event: any, dispatch: any) {
-    const client = event.body;
-    const { id } = event.params;
-  }
+  update() {}
 
-  remove(event: any, dispatch: any) {
-    const { id } = event.params;
-    console.log('aca estamos', id);
-    dispatch.send('OK!');
-    return 'erased' + id;
-  }
-  extendContract(event: any, dispatch: any) {}
+  remove() {}
+
+  extendContract() {}
 }
 
 export default BookingsService;

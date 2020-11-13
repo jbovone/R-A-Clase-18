@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { useEffect } from 'react';
+import react from 'react';
 import { css, jsx } from '@emotion/core';
 import { FaCheck } from 'react-icons/fa';
 
@@ -9,7 +9,7 @@ function UserShowcase({ user }) {
   return (
     <ol css={style}>
       {Object.entries(user).map(([key, value]) => (
-        <li>{key + ':' + value}</li>
+        <li>{key + ': ' + value}</li>
       ))}
     </ol>
   );

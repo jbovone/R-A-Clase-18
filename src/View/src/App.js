@@ -8,9 +8,7 @@ import Home from './views/home-page';
 import Login from './views/account-page/account-page';
 import AccountSettings from './views/account-settings/account-settings';
 
-function main() {
-  const cookie = document.cookie;
-  console.log(cookie, 'COOKIE');
+function Main() {
   return (
     <main>
       <Header />
@@ -23,5 +21,5 @@ function main() {
     </main>
   );
 }
-//
-export default main;
+
+export default Main;

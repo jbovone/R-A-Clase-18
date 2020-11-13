@@ -4,12 +4,12 @@ import axios from 'axios';
 
 const initialState = {
   loading: false,
-  user: null,
+  user: {},
   error: null,
 };
 
 const GETTING_USER_DATA = 'GETTING_USER_DATA';
-const GETTING_USER_DATA_ERROR = 'CGETTING_USER_DATA_ERROR';
+const GETTING_USER_DATA_ERROR = 'GETTING_USER_DATA_ERROR';
 const GETTING_USER_DATA_SUCCESS = 'GETTING_USER_DATA_SUCCESS';
 
 export const getUserById = (state = initialState, action) => {
@@ -28,7 +28,7 @@ export const getUserById = (state = initialState, action) => {
 const createUserAction = id => dispatch => {
   dispatch({ type: GETTING_USER_DATA });
   axios
-    .post(GET_BY_ID(id))
+    .get(GET_BY_ID(id))
     .then(response => {
       dispatch({
         type: GETTING_USER_DATA_SUCCESS,

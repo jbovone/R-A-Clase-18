@@ -37,15 +37,15 @@ class ClientService implements clientsService {
     }
   }
 
-  async getById(id: ID, auth: category) {
+  async getById(id: ID, auth: category, sessionID: ID) {
     const { MANAGEMENT_ACCESS } = userTypes;
+    const isOwnAccountQuery = sessionID === id;
     try {
-      if (auth >= MANAGEMENT_ACCESS) {
+      if (auth >= MANAGEMENT_ACCESS || isOwnAccountQuery) {
         const client = await this.clientsRepository.getById(id);
         return client;
-      } else {
-        throw new AccessDenied('Forbidden');
       }
+      throw new AccessDenied('Forbidden');
     } catch (error) {
       throw new Error('Client Service Unhandled');
     }
