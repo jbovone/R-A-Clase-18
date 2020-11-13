@@ -38,6 +38,10 @@ class AutomobileModel extends Model {
           type: DataTypes.STRING,
           allowNull: false,
         },
+        rentPrice: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
         status: {
           type: DataTypes.STRING,
           allowNull: false,

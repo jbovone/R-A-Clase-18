@@ -24,6 +24,7 @@ interface automobile {
   passengers: number;
   gears: string;
   status: string;
+  rentPrice: number;
 }
 
 interface user {

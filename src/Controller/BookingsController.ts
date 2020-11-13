@@ -8,7 +8,7 @@ export default class ClientController {
   service;
   base;
   constructor(router: Router, service: transactionsService) {
-    this.base = '/transactions';
+    this.base = '/bookings';
     this.provider = router;
     this.service = service;
   }

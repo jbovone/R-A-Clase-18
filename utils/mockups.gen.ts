@@ -43,6 +43,7 @@ export function generateCar() {
     passengers: setPassengers(),
     gears: setGears(),
     status: setStatus(),
+    rentPrice: random(500, 100),
   };
   return car;
 }

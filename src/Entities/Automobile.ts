@@ -13,6 +13,7 @@ class Automobile implements automobile {
   passengers;
   gears;
   status;
+  rentPrice;
   constructor(props: automobile) {
     this.id = props.id,
     this.brand = props.brand,
@@ -23,6 +24,7 @@ class Automobile implements automobile {
     this.passengers = props.passengers,
     this.gears = props.gears,
     this.status = props.status;
+    this.rentPrice = props.rentPrice;
   }
 }
 export default Automobile;

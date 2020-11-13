@@ -17,7 +17,7 @@ const StyledTicket = styled.section({
   },
 });
 
-function Ticket({ dates }) {
+function Ticket({ dates, car }) {
   console.log(dates, 'in tickets');
   return (
     <StyledTicket className="notification">
@@ -33,6 +33,12 @@ function Ticket({ dates }) {
           </div>
         ))}
       </div>
+      {car.id && (
+        <div>
+          -You want to rent a {car.brand} {car.model} at {car.rentPrice}/day
+        </div>
+      )}
+      {car.id && <div>-Your total payment would be ${car.rentPrice * setDays(dates)}</div>}
     </StyledTicket>
   );
 }

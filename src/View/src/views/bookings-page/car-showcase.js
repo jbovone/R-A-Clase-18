@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
-import Checkbox from '../../../components/forms/controls/checkbox';
-import image from '../../../assets/128x128.png';
+import Checkbox from '../../components/forms/controls/checkbox';
+import image from '../../assets/128x128.png';
 
 const Car = styled.article({
+  position: 'relative',
   span: {
     fontsize: '15px',
     color: 'green',
@@ -20,6 +21,11 @@ const Car = styled.article({
   },
   '.content p': {
     textIndent: '9px',
+  },
+  '.price': {
+    position: 'absolute',
+    left: '10px',
+    bottom: '10px',
   },
 });
 
@@ -41,6 +47,9 @@ function CarShowcase({ car, selected, onSelect }) {
           <p>Color: {car.color}</p>
         </div>
         <nav>
+          <div className="price">
+            <strong>Price:</strong> <span>{car.rentPrice}</span>/day
+          </div>
           <Checkbox check={selected} setCheck={onSelect} />
           <span>Rent!</span>
         </nav>
