@@ -14,6 +14,7 @@ function Nav() {
       display: 'flex',
       margin: '0 auto',
       justifyContent: 'space-evenly',
+      alignItems: 'center',
       flexFlow: 'column no-wrap',
       listStyle: 'none',
       fontWeight: 600,

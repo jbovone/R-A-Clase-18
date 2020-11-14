@@ -1,6 +1,6 @@
 import { category, clientsService, user, ID, client, clientsRepository } from '../../types';
 import * as userTypes from '../Invariances/userCategories';
-import UserConstraints from '../Exeptions/ValidationConstraints';
+import UserConstraints from '../Exeptions/UserConstraints';
 import AccessDenied from '../Exeptions/AccessDenied';
 import UndefinedUser from '../Exeptions/UndefinedUser';
 

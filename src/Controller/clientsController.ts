@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { clientsService } from '../../types';
 import { Request, Response } from 'express-serve-static-core';
 import { isUserValid, isUsernameValid, isPasswordValid, isSearchValid } from '../Validation/validate';
-import UserConstraints from '../Exeptions/ValidationConstraints';
+import UserConstraints from '../Exeptions/UserConstraints';
 import LoginData from './DTOs/LoginSuccess';
 import AccessDenied from '../Exeptions/AccessDenied';
 import UndefinedUser from '../Exeptions/UndefinedUser';
@@ -106,7 +106,9 @@ export default class ClientController {
 
   async login({ body, session }: Request, response: Response) {
     const { username, password } = body;
+
     if (session!.user) {
+      console.log('in ssession');
       return response.status(202).send(new LoginData(session!.user));
     }
     if (isUsernameValid(username) && isPasswordValid(password)) {

@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 import color from '../../constants/colors';
 
 const StyledTicket = styled.section({
-  width: '75%',
+  width: '70%',
   minHeight: '140px',
-  margin: '15px',
+  margin: '0 !important',
   p: {
     fontWeight: 'bold',
   },
@@ -18,9 +18,8 @@ const StyledTicket = styled.section({
 });
 
 function Ticket({ dates, car }) {
-  console.log(dates, 'in tickets');
   return (
-    <StyledTicket className="notification">
+    <StyledTicket className="notification box">
       <p>-Your resume:</p>
       <div>-You need a rent for {setDays(dates)} Days</div>
       <div>

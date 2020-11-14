@@ -1,7 +1,7 @@
 {
   "name": "car-rent-software",
   "version": "1.0.0",
-  "description": "A rent car software managment system made for class 18 R/A",
+  "description": "A rent car software managment system",
   "main": "program.ts",
   "author": "jbovone <bovonejulian@gmail.com>",
   "license": "MIT",

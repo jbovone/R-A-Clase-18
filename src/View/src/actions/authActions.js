@@ -90,4 +90,26 @@ export const logoutAction = _ => (dispatch, getState) => {
   return getState;
 };
 
+export const retrieveLoginAction = dispatch => {
+  dispatch({
+    type: LOGIN_LOADING,
+  });
+  axios
+    .post(LOGIN, {
+      useCredentials: true,
+    })
+    .then(response => {
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch(_ => {
+      dispatch({
+        type: LOGIN_ERROR,
+        payload: null,
+      });
+    });
+};
+
 export default loginAction;

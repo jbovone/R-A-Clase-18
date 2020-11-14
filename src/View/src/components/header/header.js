@@ -17,7 +17,7 @@ const StyledHeader = styled.header({
   display: 'flex',
   justifyContent: 'space-between',
   backgroundImage: `url('${driver}')`,
-  backgroundSize: '90%',
+  backgroundSize: 'cover',
   backgroundPosition: '90% 45%',
   backgroundRepeat: 'no-repeat',
   alignItems: 'flex-start',

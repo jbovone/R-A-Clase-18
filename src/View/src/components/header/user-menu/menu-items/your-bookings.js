@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-function YourBookings() {
+function YourBookingsLink() {
   return (
     <NavLink
       className={'dropdown-item'}
@@ -16,4 +16,4 @@ function YourBookings() {
   );
 }
 
-export default YourBookings;
+export default YourBookingsLink;

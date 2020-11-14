@@ -27,12 +27,6 @@ class BookingsModel extends Model {
           type: DataTypes.DATE,
           allowNull: false,
         },
-        paid: {
-          type: DataTypes.INTEGER,
-        },
-        totalPrice: {
-          type: DataTypes.INTEGER,
-        },
         lastUpdated: {
           type: DataTypes.DATE,
           defaultValue: Sequelize.NOW,
@@ -57,3 +51,12 @@ class BookingsModel extends Model {
 }
 
 export default BookingsModel;
+
+/**
+ * paid: {
+    type: DataTypes.INTEGER,
+  },
+  totalPrice: {
+    type: DataTypes.INTEGER,
+  },
+ */

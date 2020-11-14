@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-function Login() {
+function LoginFormLink() {
   return (
     <NavLink
       className={'dropdown-item'}
@@ -16,4 +16,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginFormLink;

@@ -1,5 +1,5 @@
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
-import LoginAction, { loginReducer } from '../actions/authActions';
+import { loginReducer, retrieveLoginAction } from '../actions/authActions';
 import { createUserReducer } from '../actions/createUserAction';
 import { createCarReducer } from '../actions/createCarAction';
 import { getCarsReducer } from '../actions/getCarsAction';
@@ -19,8 +19,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 function generateStore() {
   const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
-  const { dispatch, getState } = store;
-  LoginAction()(dispatch, getState().login);
+  retrieveLoginAction(store.dispatch);
   return store;
 }
 

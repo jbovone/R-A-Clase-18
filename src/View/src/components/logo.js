@@ -11,10 +11,9 @@ const Stamp = styled.div({
   },
   alignSelf: 'flex-start',
   opacity: '0.9',
-  padding: '5px !important',
-  margin: '8px !important',
+  padding: '5px ',
+  margin: '8px',
   borderRadius: '5px',
-  background: color.background,
 });
 
 function Logo() {

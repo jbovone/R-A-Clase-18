@@ -6,7 +6,8 @@ import Loading from '../../../components/loading';
 
 const CarPicker = styled.main({
   height: '100%',
-  width: '90%',
+  width: '80%',
+  marginBottom: '15px',
   '.media-content': {
     margin: '10px',
   },
@@ -16,12 +17,15 @@ const CarPicker = styled.main({
   h2: {
     margin: '20px',
   },
+  '.container': {
+    maxHeight: '420px',
+    overflow: 'scroll',
+  },
 });
 
 export default function CarMedia({ cars, setSelectedCar, loading, id }) {
   const [selected, setSelected] = useState(() => {
     let state = Array.from(cars).fill(false);
-    console.log('id, ID', id);
     if (id) state[id - 1] = true;
     return state;
   });
@@ -30,13 +34,12 @@ export default function CarMedia({ cars, setSelectedCar, loading, id }) {
     let newState = Array.from(cars).fill(false);
     newState[this] = !selected[this];
     setSelected(newState);
-    console.log(cars[this], 'SELECTED');
     setSelectedCar(cars[this]);
   }
   return (
     <CarPicker>
       <h2>2. Select one of our Cars:</h2>
-      <div className="box">
+      <div className="box container">
         {loading ? (
           <Loading />
         ) : (

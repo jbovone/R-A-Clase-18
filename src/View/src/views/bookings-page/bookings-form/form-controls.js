@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 
 const StyledControls = styled.div({
   display: 'flex',
-  width: '80%',
-  margin: '10px 0',
+  width: '75%',
+  padding: '5px',
   '&>*': {
     flex: 1,
     margin: '5px',
@@ -13,7 +13,7 @@ const StyledControls = styled.div({
 
 function FormControls({ actions, enablers }) {
   const { handleStep, setStep } = actions;
-  const { bookingData, pickedDates, step, selectedCar } = enablers;
+  const { pickedDates, step, selectedCar } = enablers;
 
   function handleBtnNextDisabled() {
     if (step === 1) return pickedDates.length < 2;

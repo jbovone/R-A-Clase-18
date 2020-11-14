@@ -22,8 +22,6 @@ const StyledDropdownButton = styled.div({
 });
 
 function DropDownButton({ user }) {
-  console.log(user, 'USER');
-
   return (
     <StyledDropdownButton className="dropdown-trigger">
       <button className="button" aria-haspopup="true" aria-controls="dropdown-menu">

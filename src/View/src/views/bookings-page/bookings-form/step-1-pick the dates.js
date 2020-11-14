@@ -7,6 +7,7 @@ const PickerForm = styled.main({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  marginBottom: '15px',
   h2: {
     margin: '10px',
     alignSelf: 'flex-start',
@@ -28,6 +29,7 @@ export default function DatePicker({ pickedDates, setPickedDates }) {
     <PickerForm>
       <h2>1. Select the Date Range.</h2>
       <DayPicker
+        className="box"
         disabledDays={{ before: new Date() }}
         onDayClick={handleSelectedDays}
         initialMonth={new Date()}

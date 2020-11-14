@@ -10,6 +10,8 @@ const StyliedForm = formStyle.withComponent(Form);
 
 const Signup = ({ onSubmit, data }) => {
   const { loading, error } = data;
+  console.log(data, 'DATA');
+
   return (
     <Formik
       initialValues={{

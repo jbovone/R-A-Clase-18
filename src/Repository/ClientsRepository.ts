@@ -4,7 +4,7 @@ import { Op } from 'sequelize';
 import User from '../Entities/User';
 import { BuildOptions } from 'sequelize/types';
 import InternalRepository from '../Exeptions/InternalRepository';
-import UserConstraints from '../Exeptions/ValidationConstraints';
+import UserConstraints from '../Exeptions/UserConstraints';
 
 export default class ClientsRepository {
   interface;

@@ -5,27 +5,30 @@ import image from '../../assets/128x128.png';
 
 const Car = styled.article({
   position: 'relative',
+  minHeight: '130px',
   span: {
     fontsize: '15px',
     color: 'green',
+    margin: '0 5px',
+    fontSize: '1.5rem',
+    fontWeight: 600,
   },
-  nav: {
-    display: 'flex',
-    flexDirection: 'row-reverse',
-    alignItems: 'center',
-    span: {
-      margin: '0 5px',
-      fontSize: '1.5rem',
-      fontWeight: 600,
-    },
-  },
+
   '.content p': {
     textIndent: '9px',
   },
   '.price': {
     position: 'absolute',
     left: '10px',
-    bottom: '10px',
+    bottom: '-5px',
+  },
+  '.rent': {
+    height: '10px',
+    display: 'flex',
+    alignItems: 'center',
+    position: 'absolute',
+    right: '10px',
+    bottom: '4px',
   },
 });
 
@@ -46,13 +49,13 @@ function CarShowcase({ car, selected, onSelect }) {
           <p>Gears: {car.gears}</p>
           <p>Color: {car.color}</p>
         </div>
-        <nav>
-          <div className="price">
-            <strong>Price:</strong> <span>{car.rentPrice}</span>/day
-          </div>
+        <div className="price">
+          <strong>Price:</strong> <span>{car.rentPrice}</span>/day
+        </div>
+        <div className="rent">
           <Checkbox check={selected} setCheck={onSelect} />
           <span>Rent!</span>
-        </nav>
+        </div>
       </div>
     </Car>
   );

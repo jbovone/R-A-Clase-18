@@ -30,8 +30,8 @@ function LoginPage({ loginAction, registerAction, login, register }) {
         <Login onSubmit={loginAction} data={login} />
       )}
       <FirstTime setCheck={setIsFirstTime} check={isFirstTime} />
-      {login.user && <span className="help is-success">Welcome {login.user.username}</span>}
-      {login.user && <Redirect to="/bookings" />}
+      {login.user.id && <span className="help is-success">Welcome {login.user.username}</span>}
+      {login.user.id && <Redirect to="/bookings" />}
     </main>
   );
 }

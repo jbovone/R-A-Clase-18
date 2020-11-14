@@ -48,14 +48,12 @@ interface client {
 }
 
 interface booking {
-  id: string;
+  id?: string;
   userId: string;
   carId: string;
-  expires: string;
   fromTime: string;
   toTime: string;
-  paid: number;
-  priceDay: number;
+  // paid: boolean; we will see what we need here
 }
 
 interface baseController {
@@ -80,11 +78,12 @@ interface automobileService extends baseService {
 }
 
 interface bookingsService extends baseService {
-  transactionsRepository: repository;
-  create: (user: transaction) => boolean;
-  getById: (id: ID) => transaction;
-  getAll: () => transaction[];
-  extendContract: (date: number) => boolean;
+  bookingsRepository: bookingsRepository;
+  create: (booking: booking, category: category) => Promise<boolean>;
+  getById: (id: ID, category: category) => Promise<booking>;
+  getAll: (category: category) => Promise<booking[]>;
+  getByfilters: (category: category, search: string) => Promise<booking[]>;
+  //extendContract: (date: number) => Promise<boolean>;
 }
 
 interface clientsService extends baseService {
@@ -97,6 +96,17 @@ interface clientsService extends baseService {
   emailVerify: (id: ID, code: string) => Promise<boolean>;
   completeRegistration: (client: client, category: category) => Promise<boolean>;
   accessUpdate: (id: ID, category: category, auth: category) => Promise<boolean>;
+}
+
+/**repository layer */
+
+interface bookingsRepository {
+  getAll(): Promise<booking[]>;
+  getById(id: ID): Promise<booking>;
+  getByfilters(filter: string): Promise<booking[]>;
+  create(item: booking): Promise<boolean>;
+  remove(item: number): Promise<boolean>;
+  update(client: client): Promise<boolean>;
 }
 
 interface clientsRepository {
@@ -113,4 +123,11 @@ type userValidation = ['username'?, 'email'?];
 interface userConstraints {
   username?: string;
   email?: string;
+}
+
+interface bookingsConstraints {
+  userId?: string;
+  carId?: string;
+  fromTime?: string;
+  toTime?: string;
 }
