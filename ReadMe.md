@@ -15,7 +15,7 @@ This an hybrid Backend, delivers a React app and then behaves like an api servin
 
 <ol>
 <li>Yarn start in View directory to develop client side in isolation.</li>
-<li>Yarn dev in ROOT directoy to develop tha backend.
+<li>Yarn dev in ROOT directoy to develop tha backend. The first time it runs in development generates a database with an initial state of fake clients and cars. It also generates an admin account based on .env data.
 </li>
 
 </ol>
