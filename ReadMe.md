@@ -1,18 +1,24 @@
-## About this:
+# About this:
 
 This is a web for rent automobiles.
 This an hybrid Backend, delivers a React app and then behaves like an api serving json from its database as needed.
 
 ### To install this package:
 
-Yarn install, in root directory, to install depencencies.
-In View direcroty, yarn install (it's a create-react-app package)
-In view Directory, yarn build to interact with the backend, the build directory is what interacts with the backcend.
+<ol>
+<li>Yarn install, in root directory, to install depencencies.</li>
+<li>In View direcroty, yarn install (it's a create-react-app package).</li>
+<li>In view Directory, yarn build to interact with the backend, the build directory is what interacts with the backcend.</li>
+</ol>
 
 ### To run this package in development:
 
-Yarn start in View directory to develop client side in isolation.
-Yarn dev in ROOT directoy to develop tha backend.
+<ol>
+<li>Yarn start in View directory to develop client side in isolation.</li>
+<li>Yarn dev in ROOT directoy to develop tha backend.
+</li>
+
+</ol>
 
 ## Backend
 
@@ -69,7 +75,7 @@ Yarn dev in ROOT directoy to develop tha backend.
 }
 ```
 
-## Fronend
+## Frontend
 
 ```json
 {
